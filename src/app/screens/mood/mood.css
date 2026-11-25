@@ -1,0 +1,112 @@
+/* Настроение: опрос, редактор «Что влияет», статистика. */
+
+/* ---------- опрос */
+.mood-sheet { padding-top: 6px; }
+.mood-hello { display: flex; align-items: center; gap: 12px; }
+.mood-hello h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.12; }
+.mood-hello p { margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+
+.mood-leaves { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 18px; padding: 0 2px 6px; }
+.paper.mood-leaf { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; border-radius: 18px 20px 17px 21px / 20px 17px 21px 18px; }
+.mood-leaf span { max-width: 100%; padding: 0 2px; overflow: hidden; white-space: nowrap; text-overflow: clip; font-size: 10.5px; font-weight: 800; }
+.paper.mood-leaf.on { transform: scale(1.08) translateY(-2px); }
+.paper.mood-leaf.off { transform: scale(0.94); opacity: 0.86; }
+.paper.mood-leaf { transition: transform 0.24s var(--ease-back), box-shadow 0.28s var(--ease-out), opacity 0.24s var(--ease-out); }
+@media (hover: hover) { .paper.mood-leaf.on:hover { transform: scale(1.08) translateY(-3px); } .paper.mood-leaf.off:hover { transform: scale(0.98); opacity: 1; } }
+
+.mood-more { padding-top: 16px; }
+.mood-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 38px; margin-top: 6px; }
+.mood-label { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-soft); }
+.mood-energy { display: flex; gap: 4px; }
+.mood-energy button { display: grid; place-items: center; width: 34px; height: 38px; color: var(--line); transition: color 0.25s var(--ease-out), transform 0.25s var(--ease-back); }
+.mood-energy button.on { color: var(--mustard); transform: scale(1.06); }
+.mood-energy button:active { transform: scale(0.86); }
+.mood-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--ink-soft); transition: color 0.2s, background-color 0.2s; }
+.mood-link:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.mood-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.mood-more .btn { margin-top: 6px; }
+.mood-later { display: flex; justify-content: center; padding-top: 8px; }
+
+/* ---------- редактор тегов */
+.mood-tag-list { display: flex; flex-direction: column; gap: 8px; margin: 2px 0 10px; padding: 0; list-style: none; }
+.mood-tag-row { position: relative; display: flex; align-items: center; gap: 2px; padding: 4px 6px 4px 0; background: var(--card); border-radius: 16px 18px 15px 19px / 18px 15px 19px 16px; box-shadow: inset 0 0 0 1.5px var(--line); animation: appear 0.32s var(--ease-out) both; }
+.mood-tag-list.dragging .mood-tag-row { transition: transform 0.22s var(--ease-out); }
+.mood-tag-list.dragging .mood-tag-row.drag { z-index: 3; transition: none; box-shadow: inset 0 0 0 1.5px var(--ink-soft), 0 10px 24px var(--shadow); }
+.mood-grip { display: grid; place-items: center; width: 40px; height: 44px; flex: none; color: var(--ink-soft); cursor: grab; touch-action: none; border-radius: 12px; }
+.mood-grip:active { cursor: grabbing; }
+.mood-tag-name { flex: 1; min-width: 0; padding: 12px 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; font-weight: 700; font-size: 15.5px; }
+.mood-tag-row .round { color: var(--ink-soft); }
+.mood-tag-row .mood-tag-del { color: var(--clay); }
+:root[data-theme="dark"] .mood-tag-row .mood-tag-del { color: var(--blush); }
+.mood-add { display: flex; align-items: flex-end; gap: 10px; }
+.mood-add .field { flex: 1; margin-bottom: 0; }
+
+/* ---------- статистика */
+.mood-periods { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.mood-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 22px; align-items: start; }
+.mood-block { min-width: 0; }
+.mood-block.w2 { grid-column: span 2; }
+.mood-block.w3 { grid-column: 1 / -1; }
+.mood-block .section-title { margin-top: 20px; }
+.mood-block.first .paper { margin-top: 45px; }
+
+.mood-sum { display: flex; align-items: center; gap: 12px; min-height: 150px; }
+.mood-sum b { display: block; font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.mood-sum p { font-weight: 700; }
+.mood-sum small { display: inline-flex; align-items: center; gap: 5px; margin-top: 3px; font-size: 12.5px; font-weight: 700; }
+
+.mood-chart { display: block; width: 100%; overflow: visible; }
+.mood-chart text { font-family: inherit; font-size: 11px; font-weight: 600; fill: var(--ink-soft); }
+.mood-chart .grid { stroke: var(--line); stroke-width: 1; }
+.mood-chart .line { fill: none; stroke: var(--orange); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; animation: mood-draw 1.1s var(--ease-io) both; }
+.mood-chart .area { fill: var(--orange); opacity: 0.12; animation: mood-fade 0.9s 0.35s var(--ease-out) both; }
+.mood-chart .dot { stroke: var(--ink); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: mood-pop 0.42s var(--ease-back) both; }
+.mood-chart .bar { stroke: var(--ink); stroke-width: 1.2; transform-box: fill-box; transform-origin: 50% 100%; animation: mood-grow 0.72s var(--ease-out) both; }
+.mood-chart .bar.none { stroke: none; fill: var(--line); }
+.mood-chart .val { font-size: 12.5px; font-weight: 800; fill: var(--ink); animation: mood-fade-full 0.4s var(--ease-out) both; }
+.mood-chart .cap { font-size: 11.5px; }
+@keyframes mood-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes mood-fade { from { opacity: 0; } to { opacity: 0.12; } }
+@keyframes mood-fade-full { from { opacity: 0; } }
+@keyframes mood-pop { from { transform: scale(0); } }
+@keyframes mood-grow { from { transform: scaleY(0); } }
+@keyframes mood-grow-x { from { transform: scaleX(0); } }
+
+.mood-inf { display: flex; flex-direction: column; gap: 9px; }
+.mood-inf-row { display: grid; grid-template-columns: minmax(0, 34%) minmax(0, 1fr) 44px; align-items: center; gap: 10px; animation: appear 0.4s var(--ease-out) both; }
+.mood-inf-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13.5px; font-weight: 700; }
+.mood-inf-row em { font-style: normal; font-size: 12.5px; font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
+.mood-inf-row svg { display: block; width: 100%; height: 16px; overflow: visible; }
+.mood-inf-row .axis { stroke: var(--ink-faint); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.mood-inf-row rect { stroke: var(--ink); stroke-width: 1.2; vector-effect: non-scaling-stroke; transform-box: view-box; transform-origin: 50% 50%; animation: mood-grow-x 0.72s var(--ease-out) both; }
+.mood-hint { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+
+.mood-notes { display: flex; flex-direction: column; gap: 8px; }
+.mood-note { display: flex; align-items: flex-start; gap: 9px; font-weight: 600; line-height: 1.35; }
+.mood-note svg { margin-top: 2px; transform: rotate(22deg); }
+.mood-note b { font-weight: 800; }
+.mood-ask { margin-top: 22px; }
+
+.mood-marks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 26px; }
+.mood-mark { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 9px 0; border-bottom: 1.4px dashed var(--line); }
+.mood-mark i { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 50% 47% 52% 48% / 48% 52% 47% 51%; font-style: normal; font-weight: 800; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.14); }
+.mood-mark div { flex: 1; min-width: 0; }
+.mood-mark h4 { font-size: 15px; font-weight: 800; }
+.mood-mark p { font-size: 13px; font-weight: 600; color: var(--ink-soft); overflow-wrap: anywhere; }
+.mood-mark .round { color: var(--ink-faint); transition: color 0.2s, transform 0.2s var(--ease-back); }
+.mood-mark .round:hover { color: var(--danger); }
+
+@media (max-width: 1099px) {
+  .mood-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mood-block.w2 { grid-column: 1 / -1; }
+}
+@media (max-width: 899px) {
+  .mood-grid { grid-template-columns: minmax(0, 1fr); }
+  .mood-block.w2, .mood-block.w3 { grid-column: auto; }
+  .mood-marks { grid-template-columns: minmax(0, 1fr); }
+  .mood-sum { min-height: 0; }
+  .mood-block.first .paper { margin-top: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mood-chart .line, .mood-chart .area, .mood-chart .dot, .mood-chart .bar, .mood-chart .val, .mood-inf-row rect { animation: none; }
+}

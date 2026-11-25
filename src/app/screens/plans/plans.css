@@ -1,0 +1,55 @@
+/* Подписки: карточки тарифов, Оси с реквизитом, окно оплаты, экран первого входа. */
+.plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; align-items: stretch; }
+.plans-grid > div { display: grid; min-width: 0; }
+.plans-note { max-width: 560px; margin: 16px auto 0; padding: 0 8px; text-align: center; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+
+.plan-card { display: flex; flex-direction: column; min-width: 0; }
+.plan-card.plan-free { box-shadow: inset 0 0 0 1.5px var(--line), 0 var(--lift) 0 color-mix(in srgb, var(--sheet) 86%, #000), 0 calc(var(--lift) * 2.4) calc(var(--lift) * 3.6) var(--shadow); }
+.plan-card.current { transform: rotate(-0.4deg); }
+.plan-head { display: flex; align-items: flex-start; gap: 8px; }
+.plan-head-text { flex: 1; min-width: 0; }
+.plan-head h3 { font-size: 22px; line-height: 1.1; font-weight: 800; letter-spacing: -0.4px; }
+.plan-price { display: flex; align-items: baseline; margin-top: 4px; }
+.plan-price b { font-size: 19px; font-weight: 800; }
+.plan-price span { font-size: 13px; font-weight: 700; opacity: 0.72; white-space: pre; }
+.plan-sticker-wrap { padding: 8px 0 3px; }
+.plan-sticker { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 8px 9px 7px 10px / 9px 7px 10px 8px; font-size: 12px; font-weight: 800; box-shadow: 0 1.5px 0 var(--sticker-shade); transform: rotate(-1.5deg); }
+.plan-features { flex: 1; display: grid; align-content: start; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.plan-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 1.3; font-weight: 600; }
+.plan-features svg { margin-top: 3px; }
+.plan-pick { margin: 0 -12px -18px; padding: 14px 12px 28px; }
+
+/* ---------- Оси с реквизитом */
+.plan-art { position: relative; flex: none; }
+.plan-art-layer { position: absolute; inset: 0; overflow: visible; max-width: none; }
+.plan-art-layer text { font-family: var(--font); }
+.plan-sway { animation: plan-sway 6s ease-in-out infinite; }
+.plan-swing { animation: plan-swing 3s ease-in-out infinite; }
+.plan-float { animation: plan-float 6s ease-in-out infinite; }
+.plan-conf { position: absolute; animation: plan-twinkle 2s ease-in-out infinite; }
+@keyframes plan-sway { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes plan-swing { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
+@keyframes plan-float { 0%, 100% { transform: translateY(-1.5px); } 50% { transform: translateY(1.5px); } }
+@keyframes plan-twinkle { 0%, 100% { transform: scale(0.76) rotate(-8deg); } 50% { transform: scale(1.24) rotate(8deg); } }
+
+/* ---------- окно подписок и оплата */
+.plans-sheet .plans-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.plans-reason { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
+.plans-reason b { font-size: 15px; font-weight: 800; }
+.plans-pay-card { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.plans-pay-card div { flex: 1; display: grid; min-width: 0; }
+.plans-pay-card b { font-size: 19px; font-weight: 800; }
+.plans-pay-card span { font-size: 13px; font-weight: 600; opacity: 0.72; }
+.plans-pay-card strong { font-size: 22px; font-weight: 800; white-space: nowrap; }
+.plans-pay-info { display: flex; gap: 8px; margin: 14px 4px 18px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.plans-pay-error { margin: 0 4px 12px; font-weight: 700; color: var(--danger); }
+
+/* ---------- первый вход */
+.plans-first { max-width: 1040px; margin: 0 auto; padding: 20px 16px 48px; }
+.plans-first-art { position: relative; display: grid; place-items: center; width: 280px; height: 150px; margin: 0 auto; }
+.plans-first-art .a, .plans-first-art .b { position: absolute; animation: plan-drift 7s ease-in-out infinite; }
+.plans-first-art .a { left: 34px; top: 16px; }
+.plans-first-art .b { right: 40px; top: 26px; animation-delay: -3s; }
+.plans-first h1 { margin-top: 6px; text-align: center; font-size: clamp(26px, 3.2vw, 34px); font-weight: 800; letter-spacing: -0.8px; }
+.plans-first-sub { max-width: 440px; margin: 8px auto 22px; text-align: center; font-size: 14.5px; font-weight: 600; color: var(--ink-soft); }
+@keyframes plan-drift { 50% { transform: translateY(-8px) rotate(10deg); } }

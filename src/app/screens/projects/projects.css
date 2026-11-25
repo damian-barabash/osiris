@@ -1,0 +1,127 @@
+/* Раздел «Проекты»: клиенты → проекты → задачи и оплаты. Префикс .pj- */
+
+.pj-soft { opacity: 0.8; font-weight: 600; }
+.pj-hint { margin: 2px 4px 8px; font-size: 13px; font-weight: 600; color: var(--ink-soft); animation: appear 0.4s var(--ease-out) both; }
+.pj-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.pj-list > .appear > * { min-width: 0; }
+.pj-list > .appear, .pj-grid > .appear { display: grid; min-width: 0; }
+.pj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; align-items: stretch; }
+.pj-textbtn { display: block; margin: 14px auto 0; padding: 8px 14px; border-radius: 12px; font-weight: 700; font-size: 14px; color: var(--ink-soft); transition: background-color 0.2s, color 0.2s, transform 0.18s var(--ease-out); }
+.pj-textbtn:hover { background: color-mix(in srgb, currentColor 9%, transparent); }
+.pj-textbtn:active { transform: scale(0.96); }
+.pj-textbtn.danger { color: var(--danger); }
+.pj-plus { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: var(--ink); transition: background-color 0.2s, transform 0.25s var(--ease-back); }
+.pj-plus:hover { background: color-mix(in srgb, var(--ink) 9%, transparent); transform: rotate(90deg); }
+.pj-plus:active { transform: scale(0.88); }
+.pj-trail { display: flex; align-items: center; gap: 8px; }
+.pj-count { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; color: var(--ink-soft); }
+
+/* ---------- сводка */
+.pj-summary { display: flex; align-items: center; }
+.pj-summary > div { flex: 1; min-width: 0; }
+.pj-summary .sep { flex: none; width: 1px; height: 56px; margin: 0 14px; background: color-mix(in srgb, currentColor 30%, transparent); }
+.pj-label { font-size: 10.5px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; opacity: 0.65; }
+.pj-big { margin-top: 4px; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.pj-big.got { font-size: 20px; }
+
+/* ---------- вкладки (телефон) и две колонки (ноутбук) */
+.pj-tabs { display: flex; align-items: center; gap: 8px; margin: 18px 0 12px; }
+.pj-tabs .grow { flex: 1; }
+.pj-fade { opacity: 0; transform: scale(0.9); pointer-events: none; transition: opacity 0.26s var(--ease-out), transform 0.3s var(--ease-back); }
+.pj-fade.on { opacity: 1; transform: none; pointer-events: auto; }
+.pj-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 360px); gap: 30px; align-items: start; }
+.pj-cols.even { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.pj-cols > * { min-width: 0; }
+.pj-cols .section-title:first-child { margin-top: 22px; }
+
+/* ---------- карточка клиента */
+.pj-client { display: flex; flex-direction: column; gap: 12px; }
+.pj-client-top { display: flex; align-items: flex-start; gap: 10px; }
+.pj-client-top > div:first-child { flex: 1; min-width: 0; }
+.pj-client h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; overflow-wrap: anywhere; }
+.pj-owes { flex: none; display: grid; justify-items: end; padding: 6px 10px; border-radius: 12px 13px 11px 14px / 13px 11px 14px 12px; background: #f6f0e3; color: #1f1d1a; font-weight: 800; line-height: 1.25; font-variant-numeric: tabular-nums; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.14); }
+.pj-owes small { font-size: 10px; font-weight: 800; color: #6e685e; }
+.pj-mini { display: grid; gap: 6px; }
+.pj-mini button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; text-align: left; border-radius: 11px 12px 10px 13px / 12px 10px 13px 11px; color: inherit; font-weight: 700; font-size: 13.5px; background: color-mix(in srgb, currentColor 12%, transparent);
+  transition: background-color 0.2s, transform 0.2s var(--ease-out); }
+.pj-mini button:hover { background: color-mix(in srgb, currentColor 20%, transparent); transform: translateX(3px); }
+.pj-mini .dot { flex: none; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 1.5px color-mix(in srgb, currentColor 55%, transparent); }
+.pj-mini .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pj-mini .sum { flex: none; font-weight: 800; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.pj-client-foot { display: flex; align-items: center; gap: 6px; margin-top: auto; font-weight: 700; }
+.pj-client-foot span { flex: 1; }
+
+/* ---------- плитка проекта */
+.pj-tile-top { display: flex; align-items: center; gap: 10px; }
+.pj-ico { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent); }
+.pj-tile-top h3 { flex: 1; min-width: 0; font-size: 19px; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; }
+.pj-tile-money { display: flex; justify-content: space-between; gap: 10px; margin-top: 6px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pj-tile-money b { font-weight: 800; }
+.pj-tile-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin-top: 10px; font-size: 12.5px; font-weight: 700; }
+.pj-tile-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.pj-tile .progress { margin-top: 12px; }
+
+/* ---------- строка задачи */
+.pj-task-wrap { padding-bottom: 8px; }
+.pj-task { display: flex; align-items: center; gap: 10px; border-radius: 18px 20px 17px 21px / 20px 17px 21px 18px; }
+.pj-task-text { flex: 1; min-width: 0; }
+.pj-task-title { font-weight: 700; font-size: 15.5px; line-height: 1.2; overflow-wrap: anywhere; text-decoration: line-through transparent; transition: color 0.3s var(--ease-out), text-decoration-color 0.3s var(--ease-out); }
+.pj-task.done .pj-task-title { color: var(--ink-soft); text-decoration-color: var(--ink-soft); }
+.pj-task-sub { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 13px; font-weight: 600; color: var(--ink-soft); transition: color 0.25s; }
+.pj-task-sub i { flex: none; width: 7px; height: 7px; border-radius: 50%; }
+.pj-task-sub span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pj-task-sub.late { color: var(--danger); font-weight: 800; }
+.pj-task-star { flex: none; color: var(--danger); animation: pop 0.4s var(--ease-back); }
+.pj-toggle { display: flex; align-items: center; gap: 8px; width: 100%; margin: 14px 0 10px; padding: 6px 4px; font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-soft); transition: color 0.2s; }
+.pj-toggle:hover { color: var(--ink); }
+.pj-toggle svg { transition: transform 0.3s var(--ease-back); }
+.pj-toggle.open svg { transform: rotate(180deg); }
+
+/* ---------- экран клиента и проекта */
+.pj-crumb { font: inherit; font-size: 15px; letter-spacing: 0; font-weight: 700; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s, transform 0.2s var(--ease-out); }
+.pj-crumb:hover { color: var(--ink); transform: translateX(-2px); }
+.pj-hero h2 { font-size: clamp(26px, 3.2vw, 34px); font-weight: 800; letter-spacing: -0.8px; line-height: 1.05; overflow-wrap: anywhere; }
+.pj-hero-top { display: flex; align-items: center; gap: 10px; }
+.pj-hero-top h2 { flex: 1; min-width: 0; }
+.pj-hero-desc { margin-top: 6px; font-weight: 600; opacity: 0.9; white-space: pre-wrap; }
+.pj-hero .progress { margin-top: 16px; }
+.pj-stats { display: flex; gap: 16px; margin-top: 14px; }
+.pj-stats > div { flex: 1; min-width: 0; }
+.pj-stat-v { display: flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pj-contacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.pj-contacts a { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 10px 11px 9px 12px / 11px 9px 12px 10px; color: inherit; text-decoration: none; font-weight: 700; background: color-mix(in srgb, currentColor 15%, transparent);
+  transition: background-color 0.2s, transform 0.2s var(--ease-out); }
+.pj-contacts a:hover { background: color-mix(in srgb, currentColor 24%, transparent); transform: translateY(-2px); }
+.pj-deadline { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-weight: 700; }
+.pj-memo { margin-top: 12px; white-space: pre-wrap; font-weight: 500; }
+.pj-status { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.pj-actions { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.pj-actions .btn { flex: 1; min-width: 0; padding: 0 14px; }
+.pj-add { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 800; }
+.pj-pay { display: flex; align-items: center; gap: 12px; border-radius: 16px 18px 15px 19px / 18px 15px 19px 16px; }
+.pj-pay-ico { position: relative; display: grid; place-items: center; flex: none; width: 38px; height: 38px; color: #1f1d1a; }
+.pj-pay-ico > :first-child { position: absolute; inset: 0; }
+.pj-pay-ico > :last-child { position: relative; }
+.pj-pay b { display: block; font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pj-pay small { display: block; font-size: 13px; font-weight: 600; color: var(--ink-soft); overflow-wrap: anywhere; }
+.pj-note h4 { font-size: 15.5px; font-weight: 800; }
+.pj-note p { margin-top: 3px; font-size: 13.5px; font-weight: 600; opacity: 0.85; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
+.pj-note small { display: block; margin-top: 6px; font-size: 12px; font-weight: 700; opacity: 0.6; }
+
+/* ---------- редакторы */
+.pj-quick { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 6px; }
+.pj-switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 4px 10px; font-weight: 700; }
+.pj-save { margin-top: 14px; }
+
+@media (max-width: 899px) {
+  .pj-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .pj-stats { gap: 10px; }
+  .pj-stat-v { font-size: 16px; }
+}
+@media (min-width: 900px) {
+  .pj-summary { max-width: 640px; }
+  .pj-hero-wrap { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .pj-hero-wrap.solo { grid-template-columns: minmax(0, 1fr); }
+  .pj-hero-wrap .pj-memo { margin-top: 0; }
+  .pj-actions { max-width: 520px; }
+}

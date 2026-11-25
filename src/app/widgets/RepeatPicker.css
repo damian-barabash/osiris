@@ -1,0 +1,7 @@
+/* Выбор повторения: дни недели и подпись правила. */
+.rp-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; padding: 2px 0 6px; }
+.rp-day { height: 36px; border-radius: 12px 13px 11px 14px / 13px 11px 14px 12px; font-weight: 800; font-size: 13px; color: var(--ink); box-shadow: inset 0 0 0 1.3px var(--ink);
+  transition: background-color 0.18s var(--ease-out), color 0.18s var(--ease-out), transform 0.2s var(--ease-back); }
+.rp-day.on { background: var(--ink); color: var(--paper); }
+.rp-day:active { transform: scale(0.92); }
+.rp-desc { display: flex; align-items: center; gap: 6px; margin: -4px 4px 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }

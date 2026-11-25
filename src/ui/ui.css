@@ -1,0 +1,179 @@
+/* Набор интерфейса OSIRIS (веб-версия и админка). Токены — в styles/base.css. */
+
+/* ---------- пилюля */
+.pill { display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border-radius: 20px 22px 19px 23px / 22px 19px 23px 20px; font-weight: 700; font-size: 14px; white-space: nowrap;
+  --pill: var(--ink); --pill-on: var(--paper); color: var(--ink); background: transparent; box-shadow: inset 0 0 0 1.5px var(--line);
+  transition: background-color 0.28s var(--ease-out), color 0.28s var(--ease-out), box-shadow 0.28s var(--ease-out), transform 0.2s var(--ease-out); }
+.pill.dense { height: 34px; padding: 0 13px; font-size: 13px; }
+.pill.on { background: var(--pill); color: var(--pill-on); box-shadow: inset 0 0 0 1.5px var(--pill), 0 3px 0 color-mix(in srgb, var(--pill) 82%, #000); transform: translateY(-1px); }
+.pill:active { transform: scale(0.96); }
+.pill:disabled { opacity: 0.45; cursor: default; }
+@media (hover: hover) { .pill:not(.on):hover { box-shadow: inset 0 0 0 1.5px var(--ink-soft); } }
+
+.count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--orange); color: #fff; font-size: 11.5px; font-weight: 800; line-height: 1; animation: pop 0.4s var(--ease-back); }
+
+/* ---------- кнопки */
+.btn { --btn: var(--ink); --btn-on: var(--paper); display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 24px; border-radius: 24px 27px 23px 28px / 27px 23px 28px 24px;
+  background: var(--btn); color: var(--btn-on); font-weight: 800; font-size: 15.5px; box-shadow: 0 4px 0 color-mix(in srgb, var(--btn) 78%, #000), 0 10px 18px var(--shadow);
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out), background-color 0.25s, opacity 0.2s; }
+.btn.small { min-height: 38px; padding: 0 16px; font-size: 13.5px; border-radius: 18px 20px 17px 21px / 20px 17px 21px 18px; box-shadow: 0 3px 0 color-mix(in srgb, var(--btn) 78%, #000); }
+.btn.expand { width: 100%; }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+@media (hover: hover) { .btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 0 color-mix(in srgb, var(--btn) 78%, #000), 0 14px 22px var(--shadow); } .btn.ghost:not(:disabled):hover { box-shadow: inset 0 0 0 1.5px var(--ink-soft); transform: none; } }
+.btn:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 color-mix(in srgb, var(--btn) 78%, #000); transition-duration: 0.06s; }
+.btn.ghost:active { box-shadow: inset 0 0 0 1.5px var(--ink); transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.spin { width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: spin 0.7s linear infinite; }
+
+.round { --btn: var(--card); --btn-on: var(--ink); position: relative; display: inline-grid; place-items: center; flex: none; border-radius: 50% 48% 52% 49% / 49% 52% 48% 51%; color: var(--btn-on); background: transparent;
+  transition: background-color 0.22s var(--ease-out), transform 0.18s var(--ease-out), box-shadow 0.22s; }
+.round.filled { background: var(--btn); box-shadow: 0 3px 0 color-mix(in srgb, var(--btn) 84%, #000), 0 6px 12px var(--shadow); }
+@media (hover: hover) { .round:hover { background: color-mix(in srgb, var(--ink) 9%, transparent); } .round.filled:hover { background: var(--btn); transform: translateY(-2px); } }
+.round:active { transform: scale(0.9); }
+.round .count { position: absolute; top: -4px; right: -4px; }
+
+/* ---------- переключатель */
+.switch { position: relative; flex: none; width: 52px; height: 30px; border-radius: 15px 16px 14px 17px / 16px 14px 17px 15px; background: color-mix(in srgb, var(--ink) 16%, transparent); box-shadow: inset 0 0 0 1.4px var(--line);
+  transition: background-color 0.26s var(--ease-out), box-shadow 0.26s; }
+.switch .knob { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50% 47% 52% 48% / 48% 52% 47% 51%; background: var(--cream); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.18);
+  transition: transform 0.26s var(--ease-back); }
+.switch.on { background: var(--orange); box-shadow: inset 0 0 0 1.4px var(--orange-shade); }
+.switch.on .knob { transform: translateX(22px) rotate(12deg); }
+.switch:disabled { opacity: 0.45; cursor: default; }
+
+/* ---------- галочка */
+.check { --check: var(--orange); position: relative; flex: none; border-radius: 7px 8px 6px 9px / 8px 6px 9px 7px; background: var(--card); box-shadow: inset 0 0 0 1.8px var(--ink-soft), 0 2px 0 var(--line); overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s var(--ease-back); }
+.check::before { content: ""; position: absolute; inset: 0; background: var(--check); border-radius: inherit; transform: scale(0) rotate(-20deg); transition: transform 0.3s var(--ease-back); }
+.check svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.check path { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.28s 0.1s var(--ease-out); }
+.check.on { box-shadow: inset 0 0 0 1.8px var(--check), 0 2px 0 color-mix(in srgb, var(--check) 80%, #000); }
+.check.on::before { transform: none; }
+.check.on path { stroke-dashoffset: 0; }
+.check:active { transform: scale(0.86); }
+
+/* ---------- ярлык */
+.tag { --tag: var(--ink-soft); --tag-on: #fff; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 7px 8px 6px 9px / 8px 6px 9px 7px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--tag); box-shadow: inset 0 0 0 1.4px color-mix(in srgb, var(--tag) 55%, transparent); white-space: nowrap; }
+.tag.filled { background: var(--tag); color: var(--tag-on); box-shadow: 0 2px 0 color-mix(in srgb, var(--tag) 80%, #000); }
+
+/* ---------- заголовки */
+.section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 26px 0 10px; }
+.section-title h2 { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-soft); }
+.screen-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; min-height: 48px; }
+.screen-title { flex: 1; min-width: 0; }
+.screen-title h1 { font-size: clamp(26px, 3.2vw, 34px); font-weight: 800; letter-spacing: -0.8px; line-height: 1.05; overflow: hidden; text-overflow: ellipsis; }
+.screen-sub { margin-top: 3px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.screen-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+
+/* ---------- поля */
+.field { display: block; margin: 10px 0; }
+.field-label, .choice-row .label { display: block; margin: 0 4px 7px; font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-soft); }
+.field-box { display: flex; align-items: center; background: var(--card); border-radius: 16px 18px 15px 19px / 18px 15px 19px 16px; box-shadow: inset 0 0 0 1.5px var(--line); transition: box-shadow 0.2s var(--ease-out), background-color 0.2s; }
+.field-box:focus-within { box-shadow: inset 0 0 0 2px var(--ink); }
+.field.bad .field-box { box-shadow: inset 0 0 0 2px var(--danger); }
+.field input, .field textarea { flex: 1; min-width: 0; width: 100%; padding: 14px 16px; border: 0; outline: 0; background: transparent; font-weight: 600; font-size: 16px; resize: none; }
+.field input::placeholder, .field textarea::placeholder { color: var(--ink-faint); font-weight: 500; }
+.field-suffix { padding-right: 14px; color: var(--ink-soft); font-weight: 700; }
+.field-error { display: block; margin: 6px 4px 0; font-size: 12.5px; font-weight: 700; color: var(--danger); animation: appear 0.3s var(--ease-out); }
+.choice-row { margin: 14px 0; }
+.choice-row .wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.date-input { height: 40px; padding: 0 12px; border: 0; outline: 0; border-radius: 14px 16px 13px 17px / 16px 13px 17px 14px; background: var(--card); box-shadow: inset 0 0 0 1.5px var(--line); font-weight: 700; font-size: 15px; }
+.date-input:focus { box-shadow: inset 0 0 0 2px var(--ink); }
+.swatches { display: flex; gap: 9px; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: none; }
+.swatch { flex: none; width: 34px; height: 34px; border-radius: 50% 47% 52% 48% / 48% 52% 47% 51%; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.14); transition: transform 0.22s var(--ease-back), box-shadow 0.2s; }
+.swatch.on { transform: scale(1.16); box-shadow: 0 0 0 2.5px var(--paper), 0 0 0 4.5px var(--ink); }
+.icon-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(3, 40px); gap: 6px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: none; }
+.icon-cell { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px 14px 11px 15px / 14px 11px 15px 12px; color: var(--ink); background: var(--card); box-shadow: inset 0 0 0 1.4px var(--line);
+  transition: background-color 0.22s, color 0.22s, transform 0.2s var(--ease-back); }
+.icon-cell.on { transform: scale(1.08); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.16); }
+.icon-cell.locked { opacity: 0.38; }
+.icon-cell .lock { position: absolute; right: 3px; bottom: 3px; }
+
+/* ---------- строка настроек */
+.row { display: flex; align-items: center; gap: 14px; padding: 12px 4px; border-radius: 14px; transition: background-color 0.2s; }
+.row + .row { border-top: 1.4px dashed var(--line); }
+.row.tap { cursor: pointer; }
+@media (hover: hover) { .row.tap:hover { background: color-mix(in srgb, var(--ink) 5%, transparent); } }
+.row-text { flex: 1; min-width: 0; }
+.row-title { font-weight: 700; font-size: 15.5px; }
+.row-sub { margin-top: 2px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+
+/* ---------- пустое состояние, прогресс */
+.empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 34px 20px; text-align: center; animation: appear 0.5s var(--ease-out) both; }
+.empty h3 { font-size: 18px; font-weight: 800; }
+.empty p { max-width: 340px; color: var(--ink-soft); font-weight: 600; font-size: 14px; }
+.empty .btn { margin-top: 8px; }
+.progress { overflow: hidden; border-radius: 7px 8px 6px 9px / 8px 6px 9px 7px; background: color-mix(in srgb, currentColor 14%, transparent); }
+.progress span { display: block; height: 100%; border-radius: inherit; transition: width 0.8s var(--ease-out); }
+
+/* ---------- движение */
+.slide-in { animation: slide-in 0.34s var(--ease-out) both; }
+.appear { animation: appear 0.42s var(--ease-out) both; }
+.collapse { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.34s var(--ease-out), opacity 0.26s var(--ease-out); }
+.collapse > div { overflow: hidden; min-height: 0; }
+.collapse.open { grid-template-rows: 1fr; opacity: 1; }
+.collapse.bleed { margin: -14px -16px; }
+.collapse.bleed > div { padding: 14px 16px; }
+@keyframes slide-in { from { opacity: 0; transform: translateX(var(--from, 28px)); } }
+@keyframes appear { from { opacity: 0; transform: translateY(12px); } }
+@keyframes pop { from { transform: scale(0); } }
+@keyframes spin { to { transform: rotate(1turn); } }
+
+/* ---------- листы и диалоги */
+.sheet-layer { position: fixed; inset: 0; z-index: 900; display: grid; align-items: end; justify-items: center; }
+.sheet-backdrop { position: absolute; inset: 0; background: rgba(24, 18, 10, 0.42); animation: fade-in 0.28s var(--ease-out) both; }
+.sheet { position: relative; display: flex; flex-direction: column; width: 100%; max-width: 560px; max-height: min(92dvh, 900px); background: var(--paper); color: var(--ink);
+  border-radius: 30px 34px 0 0 / 34px 30px 0 0; box-shadow: 0 -6px 0 var(--paper-deep), 0 -18px 50px rgba(0, 0, 0, 0.3); outline: 0;
+  animation: sheet-up 0.42s var(--ease-out) both; transition: transform 0.3s var(--ease-out); }
+.sheet-grip { display: grid; place-items: center; height: 22px; flex: none; cursor: grab; touch-action: none; }
+.sheet-grip span { width: 44px; height: 5px; border-radius: 3px; background: var(--line); }
+.sheet-body { overflow-y: auto; overscroll-behavior: contain; padding: 0 20px calc(22px + env(safe-area-inset-bottom)); }
+.sheet-layer.closing .sheet { animation: sheet-down 0.26s var(--ease-io) both; }
+.sheet-layer.closing .sheet-backdrop { animation: fade-out 0.26s var(--ease-io) both; }
+.sheet-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 6px 0 12px; background: var(--paper); }
+.sheet-title { flex: 1; min-width: 0; }
+.sheet-title h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.1; }
+.sheet-sub { margin-top: 2px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.sheet-x { display: grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 50%; background: color-mix(in srgb, var(--ink) 8%, transparent); transition: transform 0.25s var(--ease-back), background-color 0.2s; }
+.sheet-x:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--ink) 14%, transparent); }
+.dialog { padding: 8px 0 4px; }
+.dialog h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+.dialog p { margin-top: 8px; color: var(--ink-soft); font-weight: 600; }
+.dialog-actions { display: flex; gap: 10px; margin-top: 20px; }
+.dialog-actions .btn { flex: 1; }
+.dialog-list { display: grid; gap: 8px; margin: 16px 0 12px; }
+.dialog-option { display: grid; gap: 2px; padding: 14px 16px; text-align: left; border-radius: 16px 18px 15px 19px / 18px 15px 19px 16px; background: var(--card); box-shadow: inset 0 0 0 1.5px var(--line); transition: transform 0.18s var(--ease-out), box-shadow 0.2s; }
+.dialog-option span { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.dialog-option:hover { box-shadow: inset 0 0 0 1.5px var(--ink-soft); transform: translateX(3px); }
+html.sheet-open { overflow: hidden; }
+
+@media (min-width: 720px) {
+  .sheet-layer { align-items: center; padding: 24px; }
+  .sheet { border-radius: 30px 34px 28px 35px / 34px 28px 35px 30px; box-shadow: 0 7px 0 var(--paper-deep), 0 30px 80px rgba(0, 0, 0, 0.35); max-height: min(88dvh, 860px); animation: sheet-pop 0.36s var(--ease-back) both; }
+  .sheet.wide { max-width: 760px; }
+  .sheet-grip { display: none; }
+  .sheet-body { padding: 22px 28px 26px; }
+  .sheet-layer.closing .sheet { animation: sheet-unpop 0.22s var(--ease-io) both; }
+  .sheet-layer.side { justify-items: end; align-items: stretch; padding: 12px; }
+  .sheet-layer.side .sheet { max-height: none; height: 100%; max-width: 520px; animation: sheet-side 0.4s var(--ease-out) both; }
+  .sheet-layer.side.closing .sheet { animation: sheet-unside 0.26s var(--ease-io) both; }
+}
+@keyframes sheet-up { from { transform: translateY(104%); } }
+@keyframes sheet-down { to { transform: translateY(104%); } }
+@keyframes sheet-pop { from { opacity: 0; transform: translateY(26px) scale(0.94) rotate(-1deg); } }
+@keyframes sheet-unpop { to { opacity: 0; transform: translateY(18px) scale(0.96); } }
+@keyframes sheet-side { from { transform: translateX(110%) rotate(2deg); } }
+@keyframes sheet-unside { to { transform: translateX(110%); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
+
+/* ---------- тосты */
+.toasts { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 1000; display: grid; gap: 8px; justify-items: center; transform: translateX(-50%); pointer-events: none; width: max-content; max-width: calc(100vw - 32px); }
+.toast { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 18px 20px 17px 21px / 20px 17px 21px 18px; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 14px; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3), 0 14px 30px rgba(0, 0, 0, 0.28);
+  animation: toast-in 0.4s var(--ease-back) both; }
+.toast.error { background: var(--danger); color: #fff; }
+.toast.closing { animation: toast-out 0.26s var(--ease-io) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(20px) scale(0.9); } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(12px) scale(0.95); } }
+@media (min-width: 900px) { .toasts { bottom: 32px; } }

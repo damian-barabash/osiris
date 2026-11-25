@@ -1,0 +1,63 @@
+/* Чат Оси на лендинге: круглая кнопка раскрывается в бумажную панель из правого нижнего угла. */
+.cw { position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 300; }
+.cw-fab { display: flex; align-items: center; gap: 4px; padding: 6px 20px 6px 8px; border-radius: 40px 44px 38px 45px / 44px 38px 45px 40px; background: var(--card); color: var(--ink); font-weight: 800; font-size: 15px;
+  box-shadow: 0 5px 0 var(--paper-deep), 0 16px 34px rgba(40, 25, 10, 0.26); animation: cw-fab-in 0.7s var(--ease-back) both; transition: transform 0.25s var(--ease-out), box-shadow 0.25s; }
+.cw-fab:hover { transform: translateY(-4px) rotate(-2deg); box-shadow: 0 8px 0 var(--paper-deep), 0 22px 40px rgba(40, 25, 10, 0.3); }
+.cw-fab:active { transform: translateY(3px) scale(0.97); }
+@keyframes cw-fab-in { from { opacity: 0; transform: translateY(40px) scale(0.5) rotate(12deg); } }
+.cw-peek { position: absolute; right: 8px; bottom: calc(100% + 12px); width: max-content; max-width: 240px; padding: 12px 15px; border-radius: 20px 22px 6px 21px / 22px 19px 6px 20px; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 14px; line-height: 1.35; text-align: left;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3), 0 14px 26px rgba(0, 0, 0, 0.2); animation: cw-peek 0.55s var(--ease-back) both; transform-origin: bottom right; }
+@keyframes cw-peek { from { opacity: 0; transform: scale(0.5) translateY(14px); } }
+
+.cw-panel { position: relative; display: flex; flex-direction: column; width: min(392px, calc(100vw - 24px)); height: min(600px, calc(100dvh - 40px)); overflow: hidden; border-radius: 30px 34px 28px 35px / 34px 28px 35px 30px;
+  background: var(--paper); color: var(--ink); box-shadow: 0 7px 0 var(--paper-deep), 0 30px 70px rgba(40, 25, 10, 0.38); transform-origin: bottom right; animation: cw-open 0.5s var(--ease-back) both; }
+.cw.closing .cw-panel { animation: cw-close 0.28s var(--ease-io) both; }
+@keyframes cw-open { from { opacity: 0; transform: scale(0.18) rotate(8deg); border-radius: 50%; } 60% { opacity: 1; } }
+@keyframes cw-close { to { opacity: 0; transform: scale(0.3) rotate(6deg) translateY(30px); } }
+.cw-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px 12px 12px; background: var(--butter); color: var(--ink-dark); box-shadow: 0 4px 0 color-mix(in srgb, var(--butter) 82%, #000); z-index: 1; }
+.cw-head > div { display: grid; flex: 1; line-height: 1.2; }
+.cw-head b { font-size: 18px; font-weight: 800; }
+.cw-head small { font-size: 12.5px; font-weight: 600; opacity: 0.75; }
+.cw-left { padding: 5px 10px; border-radius: 10px; background: rgba(31, 29, 26, 0.12); font-size: 11.5px; font-weight: 800; white-space: nowrap; transition: background-color 0.3s, color 0.3s; }
+.cw-left.out { background: var(--danger); color: #fff; }
+.cw-x { display: grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 50%; background: rgba(31, 29, 26, 0.1); transition: transform 0.3s var(--ease-back), background-color 0.2s; }
+.cw-x:hover { transform: rotate(90deg); background: rgba(31, 29, 26, 0.2); }
+.cw-list { flex: 1; display: flex; flex-direction: column; gap: 9px; padding: 18px 14px 10px; overflow-y: auto; overscroll-behavior: contain; }
+.cw-msg { max-width: 86%; padding: 11px 15px; font-weight: 600; font-size: 14.5px; line-height: 1.42; white-space: pre-wrap; overflow-wrap: anywhere; animation: cw-msg 0.4s var(--ease-back) both; }
+.cw-msg.osi { align-self: flex-start; border-radius: 20px 19px 20px 6px / 19px 21px 19px 6px; background: var(--card); box-shadow: 0 3px 0 var(--paper-deep); transform-origin: bottom left; }
+.cw-msg.me { align-self: flex-end; border-radius: 19px 21px 6px 20px / 21px 18px 6px 19px; background: var(--ink); color: var(--paper); transform-origin: bottom right; }
+@keyframes cw-msg { from { opacity: 0; transform: translateY(12px) scale(0.9); } }
+.cw-msg.dots { display: flex; gap: 5px; padding: 15px 17px; }
+.cw-msg.dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-soft); animation: bounce 1s infinite; }
+.cw-msg.dots i:nth-child(2) { animation-delay: 0.15s; } .cw-msg.dots i:nth-child(3) { animation-delay: 0.3s; }
+.cw-sugg { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+.cw-sugg button { padding: 9px 13px; border-radius: 16px 18px 15px 19px / 18px 15px 19px 16px; font-weight: 700; font-size: 13.5px; box-shadow: inset 0 0 0 1.5px var(--line); animation: cw-msg 0.45s var(--ease-back) both; transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease-out); }
+.cw-sugg button:hover { background: var(--card); box-shadow: inset 0 0 0 1.5px var(--ink-soft); transform: translateY(-2px); }
+.cw-note { align-self: center; padding: 8px 13px; border-radius: 13px; background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); font-size: 13px; font-weight: 700; text-align: center; animation: cw-msg 0.35s var(--ease-out) both; }
+.cw-form { display: flex; align-items: flex-end; gap: 8px; margin: 0 12px; padding: 6px 6px 6px 16px; border-radius: 24px 26px 23px 27px / 26px 23px 27px 24px; background: var(--card); box-shadow: inset 0 0 0 1.6px var(--line); transition: box-shadow 0.2s; }
+.cw-form:focus-within { box-shadow: inset 0 0 0 2px var(--ink); }
+.cw-form textarea { flex: 1; min-width: 0; max-height: 96px; padding: 11px 0; border: 0; outline: 0; resize: none; background: none; font-weight: 600; font-size: 16px; line-height: 1.35; field-sizing: content; }
+.cw-form button { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 50%; background: var(--orange); color: #fff; box-shadow: 0 3px 0 var(--orange-shade); transition: transform 0.2s var(--ease-back), opacity 0.2s, box-shadow 0.2s; }
+.cw-form button:not(:disabled):hover { transform: translateY(-2px) rotate(-10deg); }
+.cw-form button:not(:disabled):active { transform: translateY(2px); box-shadow: 0 1px 0 var(--orange-shade); }
+.cw-form button:disabled { opacity: 0.4; }
+.cw-disc { padding: 8px 16px 12px; font-size: 11px; font-weight: 600; color: var(--ink-faint); text-align: center; line-height: 1.35; }
+.cw-disc a { color: var(--ink-soft); }
+.cw-wall { position: absolute; inset: 0; z-index: 3; display: grid; place-items: end center; background: rgba(24, 18, 10, 0.5); animation: fade-in 0.3s var(--ease-out) both; }
+.cw-wall-card { display: grid; justify-items: stretch; gap: 9px; width: 100%; padding: 6px 20px 20px; text-align: center; border-radius: 30px 32px 0 0; background: var(--paper); box-shadow: 0 -6px 0 var(--paper-deep); animation: cw-wall 0.5s var(--ease-back) both; }
+.cw-wall-card > svg { justify-self: center; margin-top: -58px; }
+.cw-wall-card h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+.cw-wall-card p { margin-bottom: 6px; color: var(--ink-soft); font-weight: 600; font-size: 14.5px; line-height: 1.45; }
+.cw-link { padding: 5px; font-weight: 700; font-size: 13.5px; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+@keyframes cw-wall { from { transform: translateY(100%); } }
+@keyframes fade-in { from { opacity: 0; } }
+@media (max-width: 520px) {
+  .cw { right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); }
+  .cw.open { right: 0; bottom: 0; left: 0; }
+  .cw-panel { width: 100vw; height: min(88dvh, 640px); border-radius: 30px 32px 0 0; animation-name: cw-sheet; }
+  .cw.closing .cw-panel { animation-name: cw-sheet-out; }
+  .cw-fab span { display: none; }
+  .cw-fab { padding: 6px; border-radius: 50%; }
+}
+@keyframes cw-sheet { from { transform: translateY(104%); } }
+@keyframes cw-sheet-out { to { transform: translateY(104%); } }

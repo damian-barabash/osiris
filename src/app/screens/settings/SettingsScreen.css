@@ -1,0 +1,87 @@
+/* Настройки: слева меню разделов (ноутбук) или лента пилюль (телефон), справа — раздел. Плюс лист импорта. */
+.set-body { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 36px; align-items: start; }
+.set-tabs { position: sticky; top: 24px; display: grid; gap: 6px; }
+.set-tabs .pill { width: 100%; height: 44px; justify-content: flex-start; font-size: 14.5px; }
+.set-tabs .pill:not(.on) { box-shadow: none; color: var(--ink-soft); }
+.set-tabs .pill svg { transition: transform 0.3s var(--ease-back); }
+.set-tabs .pill.on svg { transform: rotate(-8deg) scale(1.1); }
+@media (hover: hover) { .set-tabs .pill:not(.on):hover { background: color-mix(in srgb, var(--ink) 7%, transparent); color: var(--ink); box-shadow: none; transform: translateX(3px); } }
+.set-pane { min-width: 0; max-width: 660px; padding-bottom: 30px; }
+.set-pane-plan { max-width: none; }
+.set-pane > .section-title:first-child { margin-top: 6px; }
+.set-hint { margin: 6px 4px 0; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+.set-hint.top { margin: -2px 4px 12px; }
+.set-rows .row:first-child { border-top: 1.4px dashed var(--line); }
+.set .screen-header > .round { display: none; }
+
+/* ---------- профиль */
+.set-me { display: flex; padding: 8px 4px 0; }
+.set-avatar { position: relative; display: block; border-radius: 50%; transition: transform 0.25s var(--ease-back); }
+.set-avatar:active { transform: scale(0.95); }
+.set-avatar.busy .avatar { opacity: 0.6; }
+.set-avatar .avatar { transition: opacity 0.2s; }
+.set-avatar-badge { position: absolute; right: -2px; bottom: 2px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--paper); box-shadow: 0 0 0 3px var(--paper); transition: transform 0.25s var(--ease-back); }
+.set-avatar-badge .spin { width: 14px; height: 14px; }
+@media (hover: hover) { .set-avatar:hover .set-avatar-badge { transform: scale(1.12) rotate(-8deg); } }
+
+/* ---------- вид: выбор третьей вкладки */
+.set-tabchoice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.set-tabcard { display: grid; gap: 2px; transform: scale(0.95); }
+.set-tabcard.on { transform: none; cursor: default; }
+.set-tabcard-top { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.set-tabcard-top > svg:first-child { transform: rotate(-14deg); transition: transform 0.36s var(--ease-back); }
+.set-tabcard.on .set-tabcard-top > svg:first-child { transform: none; }
+.set-tabcard-tick { opacity: 0; transform: scale(0.4) rotate(-30deg); transition: opacity 0.2s var(--ease-out), transform 0.36s var(--ease-back); }
+.set-tabcard.on .set-tabcard-tick { opacity: 1; transform: none; }
+.set-tabcard b { font-size: 16px; font-weight: 800; }
+.set-tabcard span { font-size: 12px; font-weight: 600; opacity: 0.85; }
+@media (hover: hover) { .set-tabcard.paper.tap:not(.on):hover { transform: scale(0.97) translateY(-2px); } .set-tabcard.paper.tap.on:hover { transform: none; --lift: 4px; } }
+
+/* ---------- уведомления, данные, аккаунт */
+.set-phone { display: flex; align-items: flex-start; gap: 12px; margin-top: 6px; }
+.set-phone p { font-size: 14px; font-weight: 600; line-height: 1.4; }
+.set-import { display: flex; align-items: center; gap: 12px; }
+.set-import-ico { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 50% 47% 52% 48% / 48% 52% 47% 51%; background: var(--lavender); color: var(--ink-dark); transition: transform 0.3s var(--ease-back); }
+.set-import:hover .set-import-ico { transform: rotate(-10deg) scale(1.08); }
+.set-import div { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.set-import b { font-size: 15.5px; font-weight: 800; }
+.set-import div span { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.set-import > svg { color: var(--ink-soft); }
+.set-link { color: inherit; text-decoration: none; }
+.set-link .row-text, .set-link .row-title, .set-link .row-sub { display: block; }
+.set-link > svg { color: var(--ink-soft); transition: transform 0.22s var(--ease-out); }
+@media (hover: hover) { .set-link:hover > svg { transform: translate(2px, -2px); } }
+.set-pass.none { color: var(--danger); }
+.set-version { font-weight: 800; font-size: 14px; color: var(--ink-soft); }
+.set-out { margin-top: 24px; }
+.set-logo { display: grid; justify-items: center; gap: 8px; margin-top: 34px; color: var(--ink-soft); }
+
+@media (max-width: 899px) {
+  .set-body { display: block; }
+  .set-tabs { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; margin: -6px -16px 6px; padding: 8px 16px; overflow-x: auto; scrollbar-width: none; background: var(--paper); }
+  .set-tabs::-webkit-scrollbar { display: none; }
+  .set-tabs .pill { width: auto; height: 40px; flex: none; font-size: 14px; }
+  .set-tabs .pill:not(.on) { box-shadow: inset 0 0 0 1.5px var(--line); color: var(--ink); }
+  .set-pane { max-width: none; }
+  .set-me { justify-content: center; }
+  .set .screen-header > .round { display: inline-grid; }
+}
+
+/* ---------- лист импорта */
+.imp-found { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.imp-found div { flex: 1; min-width: 0; display: grid; }
+.imp-found b { font-size: 20px; font-weight: 800; }
+.imp-found span { font-size: 13px; font-weight: 700; opacity: 0.72; }
+.imp-counts { margin: 12px 4px 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.imp-near { margin: 0 -8px; padding: 0 8px 14px; }
+.imp-near .appear + .appear { margin-top: 8px; }
+.imp-row { display: flex; align-items: center; gap: 8px; border-radius: 14px 16px 13px 17px / 16px 13px 17px 14px; }
+.imp-row b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14.5px; font-weight: 800; }
+.imp-row span { flex: none; font-size: 12.5px; font-weight: 600; }
+.imp-go { margin-top: 8px; }
+.imp-note { margin: 14px 4px 2px; text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.imp-done { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.imp-done .sheet-header { width: 100%; text-align: left; }
+.imp-done h3 { font-size: 18px; font-weight: 800; }
+.imp-done p { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.imp-done .btn { margin-top: 10px; }

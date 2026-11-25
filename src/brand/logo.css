@@ -1,0 +1,9 @@
+.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.wordmark { font-weight: 800; line-height: 1; }
+.logomark.draw .lm-lower, .logomark.draw .lm-upper { stroke-dasharray: 1 1; stroke-dashoffset: 1; animation: lm-draw 0.9s var(--ease-io) forwards; }
+.logomark.draw .lm-upper { animation-delay: 0.3s; }
+.logomark.draw .lm-ray { transform-box: fill-box; scale: 0; animation: lm-pop 0.55s var(--ease-back) forwards; animation-delay: calc(0.8s + var(--i) * 0.12s); }
+.logomark.draw .lm-shade { opacity: 0; animation: lm-fade 0.5s 1.2s var(--ease-out) forwards; }
+@keyframes lm-draw { to { stroke-dashoffset: 0; } }
+@keyframes lm-pop { to { scale: 1; } }
+@keyframes lm-fade { to { opacity: 1; } }

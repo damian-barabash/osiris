@@ -1,0 +1,68 @@
+/* Админка: каркас и листы — из веб-версии (app.css, ui.css); здесь только свои блоки. */
+.ad .page > * + * { margin-top: 16px; }
+.ad-mobnav { display: none; }
+.ad-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+.ad-tile { display: grid; gap: 4px; align-content: start; animation: appear 0.5s var(--ease-out) both; }
+.ad-tile small { font-size: 11px; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase; opacity: 0.75; }
+.ad-tile b { font-size: 34px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.ad-tile span { font-size: 12.5px; font-weight: 600; opacity: 0.8; }
+.ad-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.ad-two .section-title:first-child, .ad .paper > .section-title:first-child { margin-top: 0; }
+.ad-alert { display: flex; align-items: center; gap: 14px; }
+.ad-alert div { flex: 1; display: grid; }
+.ad-alert small { opacity: 0.9; font-weight: 600; }
+.ad-bars { position: relative; display: flex; align-items: flex-end; gap: 3px; padding-bottom: 22px; }
+.ad-bar { flex: 1; height: 100%; display: flex; align-items: flex-end; }
+.ad-bar i { width: 100%; min-height: 2px; border-radius: 4px 5px 1px 1px; transform-origin: bottom; animation: bar-up 0.7s var(--ease-out) both; transition: opacity 0.2s; }
+.ad-bars:hover .ad-bar i { opacity: 0.45; } .ad-bars .ad-bar:hover i { opacity: 1; }
+@keyframes bar-up { from { transform: scaleY(0); } }
+.ad-axis { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--ink-soft); }
+.ad-share, .ad-funnel { display: grid; gap: 9px; }
+.ad-share + .ad-share { margin-top: 16px; padding-top: 14px; border-top: 1.4px dashed var(--line); }
+.ad-share div, .ad-funnel div { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr) auto; gap: 12px; align-items: center; font-size: 13.5px; font-weight: 700; }
+.ad-share span, .ad-funnel span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ad-share em, .ad-funnel em { height: 10px; border-radius: 5px 6px 4px 7px; background: var(--paper-deep); overflow: hidden; }
+.ad-share em i, .ad-funnel em i { display: block; height: 100%; border-radius: inherit; transform-origin: left; animation: bar-right 0.8s var(--ease-out) both; }
+.ad-funnel em i { background: var(--orange); }
+@keyframes bar-right { from { transform: scaleX(0); } }
+.ad-share b, .ad-funnel b { font-variant-numeric: tabular-nums; min-width: 34px; text-align: right; }
+.ad-none, .ad-hint, .ad-count { font-size: 13.5px; font-weight: 600; color: var(--ink-soft); }
+.ad-plans { display: grid; gap: 10px; } .ad-plans div { display: flex; align-items: center; justify-content: space-between; } .ad-plans b { font-size: 22px; font-weight: 800; }
+.ad-content, .ad-user-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.ad-content div, .ad-user-grid div { display: grid; }
+.ad-content small, .ad-user-grid small { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-soft); }
+.ad-content b { font-size: 20px; font-weight: 800; } .ad-user-grid b { font-weight: 700; font-size: 14px; overflow-wrap: anywhere; }
+.ad-pills, .ad-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ad-list { display: grid; gap: 12px; }
+.ad-user-top, .ad-err-top { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; }
+.ad-user-top > div { flex: 1; min-width: 0; display: grid; }
+.ad-user-top small { font-size: 13px; font-weight: 600; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; }
+.ad-user-grid { padding: 16px 0; margin-top: 14px; border-top: 1.4px dashed var(--line); }
+.ad-err-top b { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+.ad-err-meta { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+.ad-stack { max-height: 260px; margin: 12px 0; padding: 12px 14px; overflow: auto; border-radius: 14px; background: var(--paper); font: 500 12px/1.5 ui-monospace, Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ad-chat-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ad-chat-top small { font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-right: auto; }
+.ad-q, .ad-a { margin-top: 10px; padding: 10px 14px; border-radius: 16px; font-weight: 600; font-size: 14.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ad-q { background: var(--ink); color: var(--paper); margin-left: 18%; }
+.ad-a { background: var(--paper); margin-right: 12%; }
+.ad-chat .ad-actions { margin-top: 12px; }
+.ad-step { display: flex; align-items: center; gap: 10px; }
+.ad-step b { min-width: 42px; text-align: center; font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ad-step button { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--paper-deep); transition: transform 0.2s var(--ease-back), background-color 0.2s; }
+.ad-step button:hover { background: var(--line); } .ad-step button:active { transform: scale(0.85); }
+.ad-rel > div { display: flex; align-items: center; gap: 10px; }
+.ad-rel b { font-size: 18px; font-weight: 800; } .ad-rel small { margin-left: auto; font-size: 12.5px; font-weight: 700; color: var(--ink-soft); }
+.ad-notes { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 4px; font-weight: 600; font-size: 14.5px; }
+.ad-log { display: grid; gap: 0; }
+.ad-log div { display: grid; grid-template-columns: 120px 170px 200px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 8px 0; border-bottom: 1.4px dashed var(--line); font-size: 13px; }
+.ad-log small, .ad-log span { color: var(--ink-soft); font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.ad-log code { font: 500 11.5px ui-monospace, Menlo, monospace; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ad .side-me { width: 100%; text-align: left; }
+@media (max-width: 899px) {
+  .ad .content { padding-bottom: 40px; }
+  .ad-mobnav { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px 14px; padding: 4px 16px 10px; scrollbar-width: none; }
+  .ad-two { grid-template-columns: 1fr; }
+  .ad-log div { grid-template-columns: 1fr 1fr; } .ad-log code { grid-column: 1 / -1; }
+  .ad-q { margin-left: 8%; } .ad-a { margin-right: 4%; }
+}

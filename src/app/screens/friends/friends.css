@@ -1,0 +1,121 @@
+/* Друзья: список, страница друга, приглашения в события, согласие. */
+.fr-layout { display: grid; grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 8px 30px; align-items: start; }
+.fr-layout.friend { grid-template-areas: "side main" "under main"; grid-template-rows: auto 1fr; }
+.fr-layout.friend > .fr-side { grid-area: side; }
+.fr-layout.friend > .fr-main { grid-area: main; }
+.fr-under { grid-area: under; min-width: 0; }
+.fr-side { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.fr-main { min-width: 0; }
+.fr-loading { display: grid; place-items: center; padding: 44px 0; animation: appear 0.4s var(--ease-out) both; }
+.fr-sub { margin: 14px 4px 8px; font-size: 11px; font-weight: 800; letter-spacing: 1.4px; color: var(--ink-soft); }
+
+/* ---------- свой код и «добавить по коду» */
+.fr-code { display: flex; align-items: center; gap: 12px; }
+.fr-code-text { flex: 1; min-width: 0; }
+.fr-code-label { display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.4px; }
+.fr-code b { display: block; margin: 4px 0 2px; font-size: clamp(30px, 8vw, 38px); font-weight: 800; letter-spacing: 3px; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fr-code-hint { display: block; font-size: 12.5px; font-weight: 600; }
+.fr-code-actions { display: flex; flex-direction: column; gap: 8px; }
+.fr-code .round { --btn: color-mix(in srgb, var(--on) 12%, transparent); --btn-on: var(--on); background: var(--btn); color: var(--on); }
+.fr-add-title { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 13px; font-weight: 800; color: var(--ink-soft); }
+.fr-add-row { display: flex; align-items: center; gap: 10px; }
+.fr-add-row .field { flex: 1; min-width: 0; margin: 6px 0; }
+.fr-add-row .field input { font-size: 20px; font-weight: 800; letter-spacing: 4px; font-variant-numeric: tabular-nums; }
+.fr-add-row .field input::placeholder { font-size: 16px; font-weight: 600; letter-spacing: 0; }
+
+/* ---------- вкладки и списки */
+.fr-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.fr-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+.fr-card { display: flex; align-items: center; gap: 12px; }
+.fr-card-ava { position: relative; flex: none; display: inline-flex; }
+.fr-card-badge { position: absolute; top: -8px; right: -8px; min-width: 22px; height: 22px; border: 2px solid var(--paper); border-radius: 11px; cursor: pointer; transition: transform 0.2s var(--ease-back); }
+.fr-card-badge:hover { transform: scale(1.14); }
+.fr-card-text { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.fr-card-text b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; font-weight: 800; }
+.fr-card-text em { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-style: normal; font-size: 13.5px; font-weight: 800; line-height: 1.25; }
+.fr-card.compact .fr-card-text b { font-size: 16px; }
+.fr-card.compact .fr-card-text em { -webkit-line-clamp: 1; font-size: 12.5px; }
+.fr-card-go { opacity: 0.7; transition: transform 0.25s var(--ease-out); }
+.fr-card:hover .fr-card-go { transform: translateX(3px); }
+
+.fr-mood { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-weight: 700; }
+.fr-mood.dim { font-weight: 600; opacity: 0.7; }
+.fr-mood i { flex: none; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(31, 29, 26, 0.25); }
+.fr-mood span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.fr-req-head, .fr-sent { display: flex; align-items: center; gap: 12px; }
+.fr-req-head div, .fr-sent div { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.fr-req-head b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; font-weight: 800; }
+.fr-req-head span { font-size: 13px; font-weight: 600; opacity: 0.75; }
+.fr-req-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.fr-req .btn.ghost { --btn: var(--on); color: var(--on); }
+.fr-sent b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; font-weight: 800; }
+.fr-sent span { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+
+/* ---------- страница друга */
+.fr-head { display: flex; align-items: center; gap: 14px; }
+.fr-head div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fr-head b { font-size: 16px; font-weight: 800; line-height: 1.2; }
+.fr-calls { display: flex; flex-direction: column; gap: 10px; padding-bottom: 8px; }
+.fr-calls .fr-sub { margin: 4px 4px -2px; }
+.fr-call { display: flex; align-items: center; gap: 10px; }
+.fr-call div { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.fr-call b, .fr-call span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fr-call b { font-size: 16px; font-weight: 800; }
+.fr-call span { font-size: 12.5px; font-weight: 600; opacity: 0.88; }
+.fr-call em { display: inline-flex; align-items: center; gap: 2px; flex: none; font-style: normal; font-weight: 800; }
+
+.fr-week { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.fr-week-title { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; text-align: center; }
+.fr-week-title b { font-size: 17px; font-weight: 800; }
+.fr-week-title span { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.fr-spin { width: 16px; height: 16px; flex: none; border-radius: 50%; border: 2.4px solid var(--line); border-top-color: var(--ink-soft); opacity: 0; transition: opacity 0.25s var(--ease-out); animation: spin 0.8s linear infinite; }
+.fr-spin.on { opacity: 1; }
+
+.fr-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 4px 26px; align-items: start; }
+.fr-day { min-width: 0; }
+.fr-day-head { display: flex; align-items: baseline; gap: 8px; padding: 14px 4px 8px; }
+.fr-day-head b { font-size: 17px; font-weight: 800; transition: color 0.3s; }
+.fr-day-head span, .fr-day-head em { font-size: 13px; font-weight: 600; font-style: normal; color: var(--ink-soft); }
+.fr-day-head em { margin-left: auto; }
+.fr-day.today .fr-day-head b { color: var(--orange); }
+.fr-day.past .fr-day-head b { color: var(--ink-soft); }
+.fr-day-items { display: flex; flex-direction: column; gap: 10px; transition: opacity 0.3s; }
+.fr-day.past .fr-day-items { opacity: 0.6; }
+
+.fr-settings { margin-top: 14px; }
+.fr-settings p { margin: 8px 4px 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.fr-remove { display: inline-flex; align-items: center; gap: 7px; margin-left: -4px; padding: 9px 10px; border-radius: 12px; font-weight: 800; color: var(--danger); transition: background-color 0.2s; }
+.fr-remove:hover { background: color-mix(in srgb, var(--danger) 10%, transparent); }
+
+/* ---------- согласие */
+.fr-consent-osi { display: grid; place-items: center; padding: 2px 0 10px; }
+.fr-consent h3 { font-size: 17px; font-weight: 800; }
+.fr-consent-list { display: flex; flex-direction: column; gap: 9px; margin: 10px 0 0; padding: 0; list-style: none; }
+.fr-consent-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.fr-consent-list svg { margin-top: 1px; }
+.fr-consent-q { text-align: center; font-size: 22px !important; letter-spacing: -0.4px; }
+.fr-consent-text { max-width: 420px; margin: 8px auto 0; text-align: center; font-size: 13.5px; font-weight: 600; color: var(--ink-soft); }
+.fr-consent-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+
+/* ---------- приглашение в событие */
+.fr-invite { padding-top: 8px; }
+.fr-invite-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.fr-invite-head div { flex: 1; min-width: 0; }
+.fr-invite-head h3 { font-size: 18px; font-weight: 800; }
+.fr-invite-head p { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.fr-invite h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.15; overflow-wrap: anywhere; }
+.fr-invite-lines { display: flex; flex-direction: column; gap: 5px; margin: 9px 0 0; padding: 0; list-style: none; }
+.fr-invite-lines li { display: flex; align-items: flex-start; gap: 8px; font-size: 14.5px; font-weight: 700; }
+.fr-invite-lines svg { margin-top: 2px; opacity: 0.7; }
+.fr-clash { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--ink-soft); animation: appear 0.4s var(--ease-out) both; }
+.fr-invite-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.fr-invite-hint { margin-top: 12px; text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+
+@media (max-width: 899px) {
+  .fr-layout, .fr-layout.friend { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .fr-side { margin-bottom: 18px; }
+  .fr-list, .fr-days { grid-template-columns: minmax(0, 1fr); }
+  .fr-code-actions { flex-direction: row; }
+  .fr-settings { margin-top: 26px; }
+}

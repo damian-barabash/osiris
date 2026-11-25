@@ -1,0 +1,40 @@
+/* Карточки дел на день и пересечения по времени. */
+.ag-list { display: flex; flex-direction: column; }
+.ag-card { display: block; text-align: left; }
+.ag-card.ro { cursor: default; }
+.ag-top { display: flex; align-items: flex-start; gap: 10px; }
+.ag-check { display: inline-flex; flex: none; margin: -2px 0 0 -2px; }
+.ag-top > svg { margin-top: 2px; }
+.ag-title { flex: 1; min-width: 0; font-size: 22px; line-height: 1.1; font-weight: 800; letter-spacing: -0.3px; overflow: hidden; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; text-decoration: line-through transparent; transition: opacity 0.3s var(--ease-out), text-decoration-color 0.3s var(--ease-out); }
+.ag-card.task .ag-title { font-size: 18px; }
+.ag-title.done { opacity: 0.55; text-decoration-color: currentColor; }
+.ag-time { flex: none; font-size: 15px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ag-meta { display: flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 13.5px; font-weight: 700; }
+.ag-sub { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ag-dim { display: inline-flex; opacity: 0.8; }
+.ag-star { display: inline-flex; color: var(--danger); }
+
+/* компактная карточка — колонки недели на ноутбуке */
+.paper.ag-card.compact { border-radius: 16px 19px 15px 20px / 19px 15px 20px 16px; --lift: 3px; }
+.ag-card.compact .ag-time { font-size: 12px; font-weight: 800; margin-bottom: 4px; opacity: 0.85; }
+.ag-card.compact .ag-top { gap: 7px; }
+.ag-card.compact .ag-title, .ag-card.compact.task .ag-title { font-size: 14px; line-height: 1.18; letter-spacing: -0.1px; }
+.ag-card.compact .ag-meta { margin-top: 8px; gap: 4px; font-size: 11.5px; }
+
+/* пересечение: карточка сдвинута вправо и «ложится» на предыдущую */
+.ag-overlap { position: relative; margin-top: -3px; padding: 14px 0 0 var(--indent); }
+.ag-bracket { position: absolute; left: 9px; top: -6px; width: calc(var(--indent) - 12px); height: 46px; border: solid color-mix(in srgb, var(--danger) 75%, transparent); border-width: 0 0 2.2px 2.2px; border-radius: 0 0 0 11px; pointer-events: none; }
+.ag-bracket::after { content: ""; position: absolute; right: -3px; bottom: -4.1px; width: 6px; height: 6px; border-radius: 50%; background: var(--danger); }
+.ag-sticker { position: absolute; z-index: 2; top: 0; left: calc(var(--indent) + 10px); max-width: calc(100% - var(--indent) - 20px); display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px 3px 7px;
+  border-radius: 9px 10px 8px 11px / 10px 8px 11px 9px; background: var(--danger); color: var(--cream); font-size: 11px; font-weight: 800; line-height: 1.35; box-shadow: 0 1.5px 0 color-mix(in srgb, var(--danger) 85%, #000);
+  transform-origin: left center; animation: ag-stick 0.42s var(--ease-back) both; }
+.ag-sticker span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ag-overlap.compact { padding-top: 12px; }
+.ag-overlap.compact .ag-bracket { left: 3px; width: calc(var(--indent) - 4px); height: 30px; border-radius: 0 0 0 7px; }
+.ag-overlap.compact .ag-sticker { left: calc(var(--indent) + 6px); max-width: calc(100% - var(--indent) - 10px); font-size: 10px; padding: 2px 7px 2px 5px; }
+@keyframes ag-stick { from { transform: scale(0.6); opacity: 0; } }
+
+/* карточка никогда не шире своего места: длинные подписи обрезаются, а не распирают лист */
+.ag-card { min-width: 0; max-width: 100%; }
+.ag-top > *, .ag-meta > * { min-width: 0; }
