@@ -9,4 +9,4 @@ export const WEB_VERSION = "1.13.2";
 /** Вход через Google в вебе. Включить (true), когда в Supabase → Auth → Google вписан client secret веб-клиента. */
 export const GOOGLE_WEB = true;
 /** Вход через Apple в вебе. Включить (true), когда в Apple Developer создан Services ID и он вписан в Supabase → Auth → Apple. */
-export const APPLE_WEB = false;
+export const APPLE_WEB = true;
