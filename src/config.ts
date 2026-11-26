@@ -7,4 +7,4 @@ export const CONTACT_EMAIL = "dbdcstudio@gmail.com";
 /** Версия веб-версии = версия приложения, с которой она сверена (правило: обновили приложение — обновили сайт). */
 export const WEB_VERSION = "1.12.0";
 /** Вход через Google в вебе. Включить (true), когда в Supabase → Auth → Google вписан client secret веб-клиента. */
-export const GOOGLE_WEB = false;
+export const GOOGLE_WEB = true;
