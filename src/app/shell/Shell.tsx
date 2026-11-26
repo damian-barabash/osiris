@@ -13,6 +13,8 @@ import { maybeShowCheckin } from "../screens/checkin";
 import { maybeAskMood } from "../screens/mood/moodSheet";
 import { showCapture } from "../screens/capture/capture";
 import { maybeOfferGift } from "../screens/goals/gift";
+import { AiConsent } from "../screens/account/consent";
+import { TutorialHost, TutorialScreen, tutorialNeeded } from "../screens/account/Tutorial";
 
 const S = {
   today: lazy(() => import("../screens/today/TodayScreen")),
@@ -61,7 +63,7 @@ export function Shell() {
   }, [s, s.notice, s.error, s.loaded]);
 
   const ready = s.loaded && !!p;
-  const gate = !ready ? null : !p.onboarded ? "onboarding" : !p.planChosen ? "plan" : null;
+  const gate = !ready ? null : !p.onboarded ? "onboarding" : !p.planChosen ? "plan" : tutorialNeeded(p) ? "tutorial" : null;
 
   // при входе: сначала «Ты это сделал?», потом опрос настроения — два листа подряд не показываем
   useEffect(() => {
@@ -69,6 +71,8 @@ export function Shell() {
     entered.current = true;
     // по очереди, не больше одного листа за вход: «ты это сделал?» → настроение → копилка на подарок
     const t = setTimeout(async () => {
+      // согласие на работу ИИ предлагаем один раз сами; дальше — только когда человек обращается к Оси
+      if (await AiConsent.offerOnce()) return;
       if (await maybeShowCheckin()) return;
       const before = document.querySelectorAll(".sheet-layer").length;
       await maybeAskMood();
@@ -104,6 +108,8 @@ export function Shell() {
   }
   if (gate === "onboarding") return <div className="gate appear"><Onboarding onDone={() => void s.reloadProfile()} /></div>;
   if (gate === "plan") return <div className="gate appear"><PlanChoiceScreen onDone={() => void s.reloadProfile()} /></div>;
+  // обучение — один раз, сразу после первых шагов
+  if (gate === "tutorial") return <TutorialScreen />;
 
   const Screen = name ? S[name] : null;
   const toggle = () => setCollapsed((v) => { try { localStorage.setItem(COLLAPSE_KEY, v ? "0" : "1"); } catch { /* */ } return !v; });
@@ -156,6 +162,7 @@ export function Shell() {
         </button>
         {items.slice(2).map((it) => <TabLink key={it.key} it={it} on={activeKey === it.key} />)}
       </nav>
+      <TutorialHost />
     </div>
   );
 }

@@ -114,7 +114,7 @@ console.log("Меню на телефоне, язык, баннер cookies, ч�
 }
 
 console.log("Документы и 404");
-for (const [name, url] of [["legal-terms-pl", "/pl/terms/"], ["legal-privacy-en", "/privacy/"], ["legal-cookies-ru", "/ru/cookies/"], ["404", "/ru/nothing-here/"]]) {
+for (const [name, url] of [["legal-terms-pl", "/pl/terms/"], ["legal-privacy-en", "/privacy/"], ["legal-cookies-ru", "/ru/cookies/"], ["support-en", "/support/"], ["support-pl", "/pl/support/"], ["support-ru", "/ru/support/"], ["delete-account-en", "/delete-account/"], ["delete-account-pl", "/pl/delete-account/"], ["delete-account-ru", "/ru/delete-account/"], ["404", "/ru/nothing-here/"]]) {
   const page = await open(name, url, "desk");
   await sleep(600); await reveal(page); await overflow(page, name);
   await shot(page, name, name !== "404");
@@ -133,7 +133,7 @@ if (SVC) {
   const uid = user.id;
   try {
     await rest("/rest/v1/rpc/admin_set_plan", "POST", { p_user: uid, p_plan: "smart", p_days: 30, p_lifetime: false });
-    await rest(`/rest/v1/profiles?id=eq.${uid}`, "PATCH", { onboarded_at: new Date().toISOString(), name: "Анна", work_tab: "projects" });
+    await rest(`/rest/v1/profiles?id=eq.${uid}`, "PATCH", { onboarded_at: new Date().toISOString(), name: "Анна", work_tab: "projects", tutorial_seen_at: new Date().toISOString(), ai_consent_at: new Date().toISOString() });
     const at = (d, h, m = 0) => { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(h, m, 0, 0); return x.toISOString(); };
     const day = (d) => at(d, 12).slice(0, 10);
     const u = { user_id: uid };
@@ -262,7 +262,7 @@ if (SVC) {
     await page.type('input[type="password"]', process.env.ADMIN_PASS);
     await page.keyboard.press("Enter");
     await page.waitForSelector(".shell.ad", { timeout: 20_000 }).catch(() => note("admin", "вход не удался"));
-    for (const k of ["overview", "users", "traffic", "errors", "chat", "versions", "waitlist", "admins"]) {
+    for (const k of ["overview", "users", "traffic", "errors", "reports", "chat", "versions", "waitlist", "admins"]) {
       await page.evaluate((h) => { location.hash = "/" + h; }, k);
       await sleep(1800);
       await overflow(page, "admin/" + k);

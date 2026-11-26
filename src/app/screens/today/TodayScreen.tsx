@@ -13,6 +13,7 @@ import { store, useStore, type Store } from "../../data/store";
 import { fmtDay, fmtDayShort, fmtHours, fmtTime, fmtWeekday, money, moneyMap } from "../../format";
 import { nav } from "../../router";
 import { AgendaCards } from "../../widgets/AgendaCard";
+import { AiConsent } from "../account/consent";
 import { AvatarView, PaperAvatar } from "../../widgets/Avatar";
 import { showEventEditor } from "../calendar/eventEditor";
 import { showCapture } from "../capture/capture";
@@ -114,6 +115,9 @@ function useBrief() {
   const [busy, setBusy] = useState(() => readBrief() == null);
   const live = useRef(true);
   const running = useRef(false);
+  /** Показана сводка без ИИ, потому что нет согласия. */
+  const local = useRef(false);
+  const granted = !AiConsent.blocked;
 
   const load = useCallback(async (force = false) => {
     if (running.current) return;
@@ -121,6 +125,15 @@ function useBrief() {
       const cached = readBrief();
       if (cached != null) { setText(cached); setBusy(false); return; }
     }
+    // без согласия на ИИ сводку пишет сама веб-версия; кнопка «обновить» предлагает включить Оси
+    if (AiConsent.blocked) {
+      running.current = true;
+      const ok = force && (await AiConsent.ensure());
+      running.current = false;
+      if (!live.current) return;
+      if (!ok) { local.current = true; setText(localBrief()); setBusy(false); return; }
+    }
+    local.current = false;
     running.current = true;
     setBusy(true);
     try {
@@ -140,6 +153,11 @@ function useBrief() {
     void load();
     return () => { live.current = false; };
   }, [load]);
+
+  // согласие дали в другом месте (лист при входе, настройки) — заменить свою сводку на сводку Оси
+  useEffect(() => {
+    if (granted && local.current) void load(true);
+  }, [granted, load]);
 
   return { text, busy, reload: () => void load(true) };
 }

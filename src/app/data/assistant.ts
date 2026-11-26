@@ -9,6 +9,7 @@ import { NAMED } from "@/ui/palette";
 import { fmtDateTime, fmtDay, fmtDayYear, fmtTime, money } from "../format";
 import { sb } from "../sb";
 import { Plans, showPlans, type Limit } from "../screens/plans/plans";
+import { AiConsent } from "../screens/account/consent";
 import { friends } from "./friends";
 import type { Event, Row, Task } from "./models";
 import { RepeatRule, dateOnly } from "./repeat";
@@ -67,6 +68,8 @@ function toReply(d: Row): AssistantReply {
 }
 
 async function request(mode: "chat" | "capture" | "brief", text: string, h: StreamHandlers = {}, stream = true): Promise<AssistantReply> {
+  // без согласия на работу ИИ Оси не вызывается вообще — ни чат, ни быстрая запись, ни сводка
+  if (AiConsent.blocked) throw new AssistantError(tr("Оси выключен: нужно твоё согласие на работу ИИ"), 403);
   let res: Response;
   try {
     const { data } = await sb.auth.getSession();

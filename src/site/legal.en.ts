@@ -2,7 +2,7 @@
 import type { LegalSet } from "./legal";
 
 const en: LegalSet = {
-  updated: "Effective from 25 November 2026",
+  updated: "Effective from 26 November 2026",
   note: "This is a translation provided for convenience. In case of any discrepancy, the Polish version prevails.",
   terms: {
     title: "OSIRIS Terms of Service",
@@ -25,9 +25,9 @@ const en: LegalSet = {
         "The myosiris.app website offers a chat with Osi for visitors who are not logged in. It is limited to a small number of questions and serves only to provide information about the Service.",
       ] },
       { h: "4. Account", body: [
-        "You can create an Account with an email address and password or by signing in with Google. The agreement for the provision of electronic services is concluded when the Account is created, for an indefinite period.",
+        "You can create an Account with an email address and password or by signing in with Google or Apple. The agreement for the provision of electronic services is concluded when the Account is created, for an indefinite period.",
         "You are responsible for keeping your password confidential and for activity carried out through your Account. Please notify the Provider immediately if you suspect unauthorised access.",
-        "You may delete your Account at any time by sending a request to dbdcstudio@gmail.com from the email address linked to the Account. Deleting the Account permanently removes your data.",
+        "You may delete your Account yourself at any time in the app or in the web version (Settings → Account → Delete account), or by sending a request to dbdcstudio@gmail.com from the email address linked to the Account. Deletion is immediate and irreversible and permanently removes your data. Details: https://myosiris.app/delete-account/",
       ] },
       { h: "5. Plans and payments", body: [
         "The “Free” Plan costs nothing and includes the core features with the limits described in the Service. “Little Joys” (PLN 9.99 per month) and “Smarty” (PLN 29.99 per month) raise those limits, in particular the number of messages to Osi per day. Prices include taxes.",
@@ -39,7 +39,8 @@ const en: LegalSet = {
         "If you request that a paid service begin before the withdrawal period ends, you will pay for the services provided up to the moment of withdrawal. For digital content delivered immediately with your express consent and after you have been informed that you lose the right of withdrawal, that right does not apply to content already delivered.",
       ] },
       { h: "7. The Osi assistant", body: [
-        "Osi uses artificial-intelligence models supplied by Anthropic. Answers are generated automatically and may contain errors or inaccuracies. Osi does not provide legal, tax, medical or financial advice.",
+        "Osi uses artificial-intelligence models supplied by Anthropic (the Claude model). Answers are generated automatically and may contain errors or inaccuracies. Osi does not provide legal, tax, medical or financial advice.",
+        "Osi works only after you give explicit consent to sending your messages and planner data to the AI provider. You can withdraw that consent at any time in the settings (Account → Osi and AI); the rest of the Service keeps working as before. You can report an inappropriate reply from Osi directly in the chat.",
         "Osi proposes changes to your data as cards; changes are saved only after you approve them. Please check them before approving.",
         "The number of messages to Osi per day is limited and depends on the Plan.",
       ] },
@@ -53,20 +54,25 @@ const en: LegalSet = {
         ],
         "In the event of a serious breach of these Terms, the Provider may restrict access to the Service or terminate the agreement and will inform you accordingly.",
       ] },
-      { h: "9. Your content", body: [
+      { h: "9. Friends: reporting and blocking", body: [
+        "The friends feature is for sharing plans with people close to you. You must not use invitations, event titles or any other content visible to friends to harass or insult others, or to send spam or unlawful content.",
+        "You can remove or block any friend at any time — a blocked person cannot send you another invitation. You can report another user's inappropriate behaviour, or an inappropriate reply from Osi, directly in the app.",
+        "We review reports within 24 hours. If a breach is confirmed, the Provider may remove content, restrict features or block the Account of the person who breached these Terms.",
+      ] },
+      { h: "10. Your content", body: [
         "Content you enter into the Service remains yours. You grant the Provider a non-exclusive licence to store and process it solely to the extent necessary to provide the services.",
         "The friends feature lets you share the titles, times and places of your events and tasks with people you choose. Notes and descriptions are never shared. Mood is shared only with separate consent, which you can withdraw at any time.",
       ] },
-      { h: "10. Availability and liability", body: [
+      { h: "11. Availability and liability", body: [
         "The Provider makes every effort to keep the Service running continuously but does not guarantee uninterrupted availability. Maintenance breaks may occur; where possible, the Provider gives advance notice.",
         "The Service is a supporting tool. You remain responsible for meeting your own deadlines, including court and official deadlines, and for the accuracy of data in reports you pass on to third parties.",
         "The Provider's liability towards Users who are not consumers is limited to the fees paid in the preceding 12 months. Nothing in these Terms excludes or limits consumer rights under mandatory provisions of law.",
       ] },
-      { h: "11. Complaints", body: [
+      { h: "12. Complaints", body: [
         "Complaints can be sent to dbdcstudio@gmail.com with a description of the problem and the Account's email address. The Provider replies within 14 days of receipt.",
         "Consumers may use out-of-court dispute resolution, for example by contacting a consumer ombudsman or using the ODR platform: https://ec.europa.eu/consumers/odr.",
       ] },
-      { h: "12. Changes and final provisions", body: [
+      { h: "13. Changes and final provisions", body: [
         "The Provider may amend these Terms for important reasons: changes in the law, new features or payments, or security. Users will be notified in the Service or by email at least 14 days before the change takes effect. If you do not accept the changes, you may terminate the agreement by deleting your Account.",
         "Matters not covered here are governed by Polish law. This choice of law does not deprive consumers of the protection afforded by the law of their habitual residence.",
       ] },
@@ -84,48 +90,56 @@ const en: LegalSet = {
         "Account data: email address, name, password (as an encrypted hash), profile photo, language, time zone, chosen plan.",
         "Content you enter in the app: events, tasks, clients and projects, payments, work hours, goals, notes, mood check-ins and anything you write in the “What Osi knows about me” field.",
         "Conversations with Osi and assistant usage data (number of messages, token counts, cost).",
-        "Technical data: device identifiers for push notifications, error information, an approximate region derived from your time zone, device and browser type.",
+        "Technical data: device identifiers for push notifications, an approximate region derived from your time zone, device and browser type.",
+        "Error diagnostics from the apps and the website: the error text, the app version, the platform (iOS, Android or browser) and where the error occurred.",
+        "Reports: the text of a report about another user or about a reply from Osi, the reported reply or the reported person's name, the reporter's identifier and the date; and the list of people you have blocked.",
+        "AI consent record: the date you gave it.",
         "Guest chat on the website: the question and answer text and a hash of the IP address used to count the question limit. We do not store the IP address itself.",
         "Waiting list: the email address entered in the “Notify me” form.",
       ],
         "We do not ask for special categories of data. Mood check-ins are for your own use; if you enter health information or other sensitive data in the Service, you do so voluntarily.",
       ] },
       { h: "3. Purposes and legal bases", body: [[
-        "Providing the services, running your Account, operating the Osi assistant — Art. 6(1)(b) GDPR (performance of a contract).",
-        "Security of the Service, abuse prevention, request limits, error log — Art. 6(1)(f) GDPR (legitimate interest).",
+        "Providing the services and running your Account — Art. 6(1)(b) GDPR (performance of a contract).",
+        "Operating the Osi assistant, including sending your messages and planner data to the AI provider — Art. 6(1)(a) GDPR (explicit consent given in the app, which you can withdraw in the settings at any time).",
+        "Security of the Service, abuse prevention, request limits, error diagnostics, handling reports and moderation — Art. 6(1)(f) GDPR (legitimate interest).",
         "Anonymous website statistics — Art. 6(1)(a) GDPR (consent given in the cookie banner).",
         "App launch notification (waiting list) — Art. 6(1)(a) GDPR (consent).",
         "Billing and accounting obligations once payments are launched — Art. 6(1)(c) GDPR (legal obligation).",
         "Establishing and defending legal claims — Art. 6(1)(f) GDPR.",
       ]] },
       { h: "4. Artificial intelligence", body: [
-        "When you write to Osi, the model provider (Anthropic) receives the message and the necessary context from your Account: upcoming events and tasks, clients and projects with balances, goals, a mood summary, notes and the “What Osi knows about me” field.",
-        "This data is used solely to generate the answer. Under Anthropic's commercial terms it is not used to train models. Osi makes no decisions with legal effect on you; every change to your data is approved by you.",
+        "The Osi assistant runs on Claude models by Anthropic (USA). Your messages and planner data reach the AI provider only after you give explicit consent in the app. Without consent Osi is not called at all — chat, quick capture and the AI-written daily summary do not work, while the calendar, tasks, hours and goals work as usual.",
+        "Once you have consented, when you write to Osi or ask for a daily summary, the message and the necessary context from your Account are sent to our server and to Anthropic: events and tasks, clients and projects with balances, work hours, goals, a mood summary, notes and the “What Osi knows about me” field.",
+        "This data is used solely to generate the answer. Under Anthropic's terms, data sent through the API is not used to train models. We do not sell this data or use it for advertising. Osi makes no decisions with legal effect on you; every change to your data is approved by you.",
+        "You can withdraw consent at any time in the settings: Account → Osi and AI. From that moment no data is sent to the AI provider.",
       ] },
       { h: "5. Recipients", body: [
         "We entrust data to providers who help us deliver the services, under data processing agreements:",
         [
           "Supabase — database, authentication, file storage (data centre in the European Union, Ireland);",
           "Anthropic — generating the Osi assistant's answers (USA);",
-          "Google — Google sign-in, if you use it;",
+          "Google and Apple — sign-in with Google or Apple, if you use it;",
           "Apple and Google (Firebase) — delivery of push notifications to the mobile apps;",
           "GitHub — website hosting (USA).",
         ],
-        "Friends you add see only the data described in the Terms (titles, times and places; mood only with consent). We do not sell data or share it for advertising.",
+        "Friends you add see only the data described in the Terms (titles, times and places; mood only with consent). Reports about users and about Osi's replies are seen only by people authorised to moderate. We do not sell data or share it for advertising.",
       ] },
       { h: "6. Transfers outside the EEA", body: [
         "Some providers are based in the USA. Transfers rely on the European Commission's adequacy decision (EU–U.S. Data Privacy Framework) or on standard contractual clauses.",
       ] },
       { h: "7. Retention", body: [[
-        "Account data and content — until the Account is deleted; backups are removed within a further 30 days.",
+        "Account data and content — until the Account is deleted. An Account deleted in the app disappears immediately and irreversibly; backups are removed within a further 30 days.",
+        "Reports about users and about Osi's replies — up to 12 months after they are resolved.",
         "Guest chat conversations and visit statistics — up to 12 months.",
-        "Error log and security data — up to 12 months.",
+        "Error diagnostics and security data — up to 12 months.",
         "Waiting list — until the launch notification is sent or consent is withdrawn.",
         "Billing data — for the period required by tax law.",
       ]] },
       { h: "8. Your rights", body: [
         "You have the right to access your data, rectify it, erase it, restrict its processing, receive it in a portable format, object to processing based on legitimate interest and withdraw consent at any time (without affecting the lawfulness of earlier processing).",
-        "To exercise your rights, write to dbdcstudio@gmail.com. You may also lodge a complaint with the President of the Personal Data Protection Office (UODO), ul. Stawki 2, 00-193 Warszawa, Poland, or with the authority in your country.",
+        "You can exercise most of these rights yourself in the app and in the web version: download all your data as a single file (Settings → Data → Download my data), withdraw your AI consent (Settings → Account → Osi and AI) and delete your Account together with its data (Settings → Account → Delete account). How to delete an Account, including without signing in: https://myosiris.app/delete-account/",
+        "For anything else, write to dbdcstudio@gmail.com. You may also lodge a complaint with the President of the Personal Data Protection Office (UODO), ul. Stawki 2, 00-193 Warszawa, Poland, or with the authority in your country.",
       ] },
       { h: "9. Voluntary provision and security", body: [
         "Providing data is voluntary, but an email address is required to create an Account.",

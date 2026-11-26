@@ -470,14 +470,60 @@ function Login({ onIn }: { onIn: (a: J) => void }) {
   );
 }
 
-const NAV: [string, string, string][] = [["overview", "chart", "Обзор"], ["users", "users", "Пользователи"], ["traffic", "trend", "Трафик"], ["errors", "alert", "Ошибки"], ["chat", "chat", "Чат Оси"], ["versions", "rocket", "Версии"], ["waitlist", "mail", "Лист ожидания"], ["admins", "shield", "Админы"]];
+/** Жалобы пользователей: на друга (kind = user) или на ответ Оси (kind = osi). Неразобранные — сверху. */
+function Reports({ onAuth, changed }: { onAuth: () => void; changed: () => void }) {
+  const [all, setAll] = useState(false);
+  const [d, reload] = useLoad<J>("reports", {}, [], onAuth);
+  const resolve = async (id: number) => { try { await api("report_resolve", { id }); reload(); changed(); } catch (e) { e instanceof AuthError ? onAuth() : say(e); } };
+  const list: J[] = d?.reports ?? [];
+  const open = list.filter((r) => !r.resolved_at);
+  const shown = all ? [...open, ...list.filter((r) => r.resolved_at)] : open;
+  const who = (name: string, id?: string | null) => name || (id ? `${String(id).slice(0, 8)}…` : "—");
+  return (
+    <>
+      <div className="ad-pills">
+        <Pill dense selected={!all} badge={open.length || undefined} onClick={() => setAll(false)}>Неразобранные</Pill>
+        <Pill dense selected={all} onClick={() => setAll(true)}>Все</Pill>
+      </div>
+      {!d ? <Loading /> : !shown.length ? <EmptyState title={all ? "Жалоб нет" : "Неразобранных жалоб нет"} text="Когда кто-то пожалуется на другого пользователя или на ответ Оси, жалоба появится здесь. Разобрать нужно в течение 24 часов." mood="happy" /> : (
+        <div className="ad-list">
+          {shown.map((r, i) => (
+            <Appear key={r.id} i={i}>
+              <Card className="ad-rep" seed={i}>
+                <div className="ad-rep-top">
+                  <Tag color={r.resolved_at ? "sage" : "#C8402A"} filled>{r.kind === "osi" ? "Ответ Оси" : "Пользователь"}</Tag>
+                  <b>{who(r.reporter_name, r.reporter)}{r.kind === "user" ? ` → ${who(r.target_name, r.target_user)}` : ""}</b>
+                  <small>{fmtDate(r.created_at)}</small>
+                </div>
+                <div className="ad-rep-grid">
+                  <div><small>Кто</small><b>{who(r.reporter_name, r.reporter)}</b></div>
+                  <div><small>На кого</small><b>{r.kind === "osi" ? "Оси" : who(r.target_name, r.target_user)}</b></div>
+                  <div><small>Статус</small><b>{r.resolved_at ? `Разобрано ${fmtDate(r.resolved_at)}` : "Ждёт разбора"}</b></div>
+                </div>
+                <small className="ad-rep-label">Причина</small>
+                <p className="ad-q ad-rep-reason">{r.reason || "—"}</p>
+                <small className="ad-rep-label">{r.kind === "osi" ? "Ответ Оси" : "Содержимое"}</small>
+                <p className="ad-a ad-rep-content">{r.content || "—"}</p>
+                {!r.resolved_at && <div className="ad-actions"><Button small icon="tick" onClick={() => void resolve(r.id)}>Разобрано</Button></div>}
+              </Card>
+            </Appear>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+const NAV: [string, string, string][] = [["overview", "chart", "Обзор"], ["users", "users", "Пользователи"], ["traffic", "trend", "Трафик"], ["errors", "alert", "Ошибки"], ["reports", "flag", "Жалобы"], ["chat", "chat", "Чат Оси"], ["versions", "rocket", "Версии"], ["waitlist", "mail", "Лист ожидания"], ["admins", "shield", "Админы"]];
 
 function Admin() {
   const [me, setMe] = useState<J | null | undefined>(undefined);
   const [tab, setTab] = useState(() => location.hash.slice(2) || "overview");
   const [collapsed, setCollapsed] = useState(false);
   const [errors, setErrors] = useState(0);
+  const [reports, setReports] = useState(0);
   const last = useRef<number | null>(null);
+  const lastRep = useRef<number | null>(null);
   const out = useCallback(() => { sessionStorage.removeItem(TOKEN); setMe(null); }, []);
 
   useEffect(() => {
@@ -499,6 +545,13 @@ function Admin() {
       setErrors(n);
       document.title = `${n ? `(${n}) ` : ""}OSIRIS · Админка`;
     }).catch((e) => { if (e instanceof AuthError) out(); });
+    // жалобы: число неразобранных — на значке раздела; появилась новая — тост
+    api<J>("reports").then((r) => {
+      const n = ((r.reports ?? []) as J[]).filter((x) => !x.resolved_at).length;
+      if (lastRep.current !== null && n > lastRep.current) toast(`Новая жалоба (неразобранных: ${n})`, "error");
+      lastRep.current = n;
+      setReports(n);
+    }).catch(() => { /* раздел сам покажет ошибку */ });
   }, [out]);
   useEffect(() => {
     if (!me) return;
@@ -523,7 +576,7 @@ function Admin() {
         <nav className="side-nav">
           {NAV.map(([k, icon, label]) => (
             <a key={k} href={`#/${k}`} className={`nav-item${tab === k ? " on" : ""}`} aria-current={tab === k ? "page" : undefined} title={collapsed ? label : undefined}>
-              <span className="nav-ico"><Icon name={icon} size={20} />{k === "errors" && errors > 0 && <span className="count">{errors}</span>}</span>
+              <span className="nav-ico"><Icon name={icon} size={20} />{k === "errors" && errors > 0 && <span className="count">{errors}</span>}{k === "reports" && reports > 0 && <span className="count">{reports}</span>}</span>
               <span className="nav-label">{label}</span>
             </a>
           ))}
@@ -536,12 +589,12 @@ function Admin() {
       </aside>
       <main className="content">
         <nav className="ad-mobnav" aria-label="Разделы">
-          {NAV.map(([k, icon, label]) => <Pill key={k} dense icon={icon} selected={tab === k} badge={k === "errors" ? errors : undefined} onClick={() => go(k)}>{label}</Pill>)}
+          {NAV.map(([k, icon, label]) => <Pill key={k} dense icon={icon} selected={tab === k} badge={k === "errors" ? errors : k === "reports" ? reports : undefined} onClick={() => go(k)}>{label}</Pill>)}
           <Pill dense icon="logout" onClick={logout}>Выйти</Pill>
         </nav>
         <div key={tab} className="page">
           <header className="screen-header"><div className="screen-title"><h1>{title}</h1></div></header>
-          {tab === "users" ? <Users onAuth={out} /> : tab === "traffic" ? <Traffic onAuth={out} /> : tab === "errors" ? <Errors onAuth={out} changed={poll} /> : tab === "chat" ? <GuestChat onAuth={out} /> : tab === "versions" ? <Versions onAuth={out} /> : tab === "waitlist" ? <Waitlist onAuth={out} /> : tab === "admins" ? <Admins onAuth={out} me={me} /> : <Overview onAuth={out} go={go} />}
+          {tab === "users" ? <Users onAuth={out} /> : tab === "traffic" ? <Traffic onAuth={out} /> : tab === "errors" ? <Errors onAuth={out} changed={poll} /> : tab === "reports" ? <Reports onAuth={out} changed={poll} /> : tab === "chat" ? <GuestChat onAuth={out} /> : tab === "versions" ? <Versions onAuth={out} /> : tab === "waitlist" ? <Waitlist onAuth={out} /> : tab === "admins" ? <Admins onAuth={out} me={me} /> : <Overview onAuth={out} go={go} />}
         </div>
       </main>
     </div>

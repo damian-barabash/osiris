@@ -1,15 +1,17 @@
-// Корень сайта: шапка, страница (лендинг, документ или 404), подвал, баннер cookies, чат Оси.
+// Корень сайта: шапка, страница (лендинг, документ, страница помощи или 404), подвал, баннер cookies, чат Оси.
 import { Suspense, lazy, useEffect, useState } from "react";
 import { Osi } from "@/brand/Osi";
 import { getConsent, onConsent, setConsent } from "@/lib/consent";
 import { track } from "@/lib/track";
-import { Footer, Header, Ic, pageUrl, useReveal } from "./Chrome";
+import { Footer, Header, Ic, appUrl, pageUrl, useReveal } from "./Chrome";
 import { Landing } from "./Landing";
-import { CONTENT, type SiteLang } from "./content";
+import { COMPANY, CONTENT, type SiteLang } from "./content";
+import { HELP, HELP_KEYS, type HelpKey } from "./help";
 import { LEGAL, LEGAL_KEYS, type LegalBlock, type LegalKey } from "./legal";
 
 const ChatWidget = lazy(() => import("./ChatWidget"));
-export type PageKey = "" | LegalKey | "404";
+export type PageKey = "" | LegalKey | HelpKey | "404";
+const isHelp = (p: PageKey): p is HelpKey => (HELP_KEYS as string[]).includes(p);
 
 export function Site({ lang, page }: { lang: SiteLang; page: PageKey }) {
   const [ready, setReady] = useState(false);
@@ -26,7 +28,7 @@ export function Site({ lang, page }: { lang: SiteLang; page: PageKey }) {
     <>
       <Header lang={lang} page={page === "404" ? "" : page} />
       <main id="main">
-        {page === "" ? <Landing lang={lang} /> : page === "404" ? <NotFound lang={lang} /> : <Legal lang={lang} doc={page} />}
+        {page === "" ? <Landing lang={lang} /> : page === "404" ? <NotFound lang={lang} /> : isHelp(page) ? <Help lang={lang} doc={page} /> : <Legal lang={lang} doc={page} />}
       </main>
       <Footer lang={lang} />
       <CookieBanner lang={lang} />
@@ -67,6 +69,31 @@ function Legal({ lang, doc }: { lang: SiteLang; doc: LegalKey }) {
       ))}
       <nav className="legal-nav" aria-label={f.legal}>
         {LEGAL_KEYS.filter((k) => k !== doc).map((k) => <a key={k} className="b ghost sm" href={pageUrl(lang, k)}>{names[k]} <Ic n="arrow" size={15} /></a>)}
+      </nav>
+    </article>
+  );
+}
+
+/** «Поддержка» и «Удаление аккаунта»: тот же вид, что у документов, внизу — письмо и веб-версия. */
+function Help({ lang, doc }: { lang: SiteLang; doc: HelpKey }) {
+  const set = HELP[lang], d = set[doc], f = CONTENT[lang].footer;
+  const other: HelpKey = doc === "support" ? "delete-account" : "support";
+  return (
+    <article className="legal">
+      <h1 className="up">{d.title}</h1>
+      <p className="updated up" style={{ ["--d" as string]: "0.08s" }}>{LEGAL[lang].updated}</p>
+      <p className="lead up" style={{ ["--d" as string]: "0.14s" }}>{d.intro}</p>
+      {d.sections.map((s, i) => (
+        <section key={i} className="rv">
+          <h2>{s.h}</h2>
+          {s.body.map((b, k) => <Block key={k} b={b} />)}
+        </section>
+      ))}
+      <nav className="legal-nav" aria-label={f.help}>
+        <a className="b orange sm" href={`mailto:${COMPANY.email}?subject=${encodeURIComponent(set.mailSubject[doc])}`}><Ic n="mail" size={15} /> {set.write}</a>
+        <a className="b ghost sm" href={appUrl()}>{set.openApp} <Ic n="arrow" size={15} /></a>
+        <a className="b ghost sm" href={pageUrl(lang, other)}>{other === "support" ? f.support : f.deleteAccount} <Ic n="arrow" size={15} /></a>
+        <a className="b ghost sm" href={pageUrl(lang, "privacy")}>{f.privacy} <Ic n="arrow" size={15} /></a>
       </nav>
     </article>
   );

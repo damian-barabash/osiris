@@ -1,0 +1,78 @@
+/* Аккаунт: согласие на ИИ, листы (пароль, почта, жалоба, удаление, заблокированные), обучение при первом входе. */
+
+/* ---------- согласие на работу ИИ */
+.acc-consent { display: grid; justify-items: center; gap: 10px; padding: 4px 0 2px; }
+.acc-consent h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; text-align: center; }
+.acc-consent p { width: 100%; font-size: 15px; font-weight: 600; line-height: 1.42; }
+.acc-consent p.small { font-size: 13px; color: var(--ink-soft); }
+.acc-consent a { justify-self: start; font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.acc-consent-btns { display: grid; gap: 8px; width: 100%; margin-top: 8px; }
+
+/* ---------- листы с одним полем */
+.acc-sheet .btn.expand { margin-top: 14px; }
+.acc-note { margin: 0 0 12px; font-size: 13.5px; font-weight: 600; line-height: 1.42; color: var(--ink-soft); }
+.acc-note.strong { font-size: 14.5px; color: var(--ink); }
+.acc-wait { display: grid; place-items: center; padding: 26px 0; }
+.acc-blocked { display: grid; margin: 0; padding: 0 0 6px; list-style: none; }
+.acc-blocked li { display: flex; align-items: center; gap: 12px; padding: 10px 0; animation: appear 0.4s var(--ease-out) both; }
+.acc-blocked li + li { border-top: 1.4px dashed var(--line); }
+.acc-blocked b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15.5px; font-weight: 800; }
+
+/* ---------- обучение: один бумажный лист на экран, картинка и текст въезжают с разной скоростью */
+.tut { position: fixed; inset: 0; z-index: 700; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; background: var(--paper); color: var(--ink);
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); animation: tut-open 0.45s var(--ease-out) both; }
+.tut.closing { animation: tut-close 0.28s var(--ease-io) both; pointer-events: none; }
+.tut-top { display: flex; align-items: center; justify-content: space-between; flex: none; padding: 12px 14px 0 22px; }
+.tut-count { font-size: 12px; font-weight: 800; letter-spacing: 1.1px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.tut-skip { padding: 9px 12px; border-radius: 12px; font-size: 13.5px; font-weight: 800; transition: background-color 0.2s; }
+.tut-skip:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.tut-stage { flex: 1 0 auto; display: grid; place-items: center; min-height: 0; padding: 10px 26px; touch-action: pan-y; }
+.tut-page { display: grid; justify-items: center; gap: 26px; width: 100%; max-width: 440px; }
+.tut-art { position: relative; flex: none; width: 280px; height: 280px; animation: tut-art 0.56s var(--ease-out) both; }
+.tut-art svg { max-width: none; } /* лист шире своей рамки на тень — общий max-width его сжимал */
+.tut-sheet { position: absolute !important; left: 25px; top: 25px; }
+.tut-osi { position: absolute; left: 55px; top: 55px; }
+.tut-cut { position: absolute; }
+.tut-cut.a { left: 4px; top: 6px; rotate: 17deg; animation: floaty 7s ease-in-out -1.5s infinite; }
+.tut-cut.b { right: 0; bottom: 14px; rotate: -23deg; animation: floaty 8s ease-in-out -4s infinite; }
+.tut-badge { position: absolute !important; right: 26px; top: 18px; animation: tut-badge 0.5s var(--ease-back) 0.22s both; }
+.tut-badge > div { display: grid; place-items: center; }
+.tut-text { display: grid; gap: 12px; text-align: center; animation: tut-text 0.5s var(--ease-out) 0.06s both; }
+.tut-text h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.12; text-wrap: balance; }
+.tut-text p { font-size: 16px; font-weight: 600; line-height: 1.45; color: var(--ink-soft); text-wrap: pretty; }
+.tut-foot { flex: none; display: grid; justify-items: center; gap: 20px; padding: 8px 24px 18px; }
+.tut-dots { display: flex; align-items: center; }
+.tut-dots button { display: grid; place-items: center; height: 28px; padding: 0 4px; }
+.tut-dots span { display: block; width: 8px; height: 8px; border-radius: 4px; background: var(--line); transition: width 0.26s var(--ease-out), background-color 0.26s; }
+.tut-dots .on span { width: 26px; background: var(--ink); }
+@media (hover: hover) { .tut-dots button:not(.on):hover span { background: var(--ink-faint); } }
+.tut-nav { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 440px; }
+.tut-nav .btn { flex: 1; width: auto; min-width: 0; }
+.tut-back { flex: none; transition: opacity 0.24s var(--ease-out), transform 0.3s var(--ease-back), margin 0.3s var(--ease-out), visibility 0.24s; }
+.tut-back.off { opacity: 0; visibility: hidden; transform: scale(0.6); margin-left: -58px; }
+@keyframes tut-open { from { opacity: 0; transform: translateY(18px); } }
+@keyframes tut-close { to { opacity: 0; transform: scale(0.98); } }
+@keyframes tut-art { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 64px)) rotate(calc(var(--dir, 1) * 7deg)); } }
+@keyframes tut-text { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 26px)); } }
+@keyframes tut-badge { from { opacity: 0; transform: scale(0.4) rotate(-30deg); } }
+
+/* низкий экран (телефон боком, маленький ноутбук): картинка меньше, чтобы кнопка осталась на экране */
+@media (max-height: 640px) {
+  .tut-art { zoom: 0.72; }
+  .tut-page { gap: 14px; }
+  .tut-text h1 { font-size: 23px; }
+  .tut-text p { font-size: 14.5px; }
+  .tut-foot { gap: 12px; padding-bottom: 12px; }
+}
+/* ноутбук: картинка слева, текст справа */
+@media (min-width: 900px) and (min-height: 560px) {
+  .tut-top { padding: 22px 26px 0 34px; }
+  .tut-page { grid-template-columns: auto minmax(0, 1fr); align-items: center; justify-items: start; gap: 56px; max-width: 860px; }
+  .tut-art { zoom: 1.25; }
+  .tut-text { text-align: left; gap: 16px; }
+  .tut-text h1 { font-size: 40px; letter-spacing: -1.2px; }
+  .tut-text p { font-size: 18px; max-width: 420px; }
+  .tut-foot { padding-bottom: 40px; }
+  .tut-nav { max-width: 380px; }
+}
+@media (min-width: 900px) and (min-height: 560px) and (max-height: 640px) { .tut-art { zoom: 0.9; } }

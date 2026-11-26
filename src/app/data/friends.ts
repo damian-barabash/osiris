@@ -314,6 +314,21 @@ export const friends = {
     await load();
   },
 
+  /** Заблокировать: дружба и приглашения удаляются, новые приглашения от этого человека не проходят. */
+  block: async (f: Friend): Promise<void> => {
+    await rpc("friend_block", { p_user: f.id });
+    friends.list = friends.list.filter((x) => x.friendshipId !== f.friendshipId);
+    delete friends.today[f.id];
+    emit();
+    await load();
+  },
+  unblock: async (userId: string): Promise<void> => { await rpc("friend_unblock", { p_user: userId }); },
+  /** Кого я заблокировал. */
+  blocks: async (): Promise<{ user_id: string; name: string | null; created_at: string }[]> => {
+    const r = await rpc<unknown>("my_blocks");
+    return Array.isArray(r) ? r.filter((x) => x && typeof x.user_id === "string") : [];
+  },
+
   /** Показывать ли другу моё настроение. */
   setMood: async (f: Friend, share: boolean): Promise<void> => {
     friends.list = friends.list.map((x) => (x.friendshipId === f.friendshipId ? { ...x, iShareMood: share } : x));

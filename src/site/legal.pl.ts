@@ -2,7 +2,7 @@
 import type { LegalSet } from "./legal";
 
 const pl: LegalSet = {
-  updated: "Obowiązuje od 25 listopada 2026 r.",
+  updated: "Obowiązuje od 26 listopada 2026 r.",
   terms: {
     title: "Regulamin serwisu OSIRIS",
     intro: "Regulamin określa zasady korzystania z serwisu i aplikacji OSIRIS dostępnych pod adresem myosiris.app oraz w aplikacjach mobilnych. Prosimy o uważną lekturę przed założeniem konta.",
@@ -24,9 +24,9 @@ const pl: LegalSet = {
         "Na stronie myosiris.app dostępny jest czat z Osi dla osób niezalogowanych, ograniczony do niewielkiej liczby pytań i służący wyłącznie do uzyskania informacji o Serwisie.",
       ] },
       { h: "4. Konto", body: [
-        "Konto można założyć, podając adres e-mail i hasło albo logując się kontem Google. Umowa o świadczenie usług drogą elektroniczną zostaje zawarta z chwilą założenia Konta, na czas nieoznaczony.",
+        "Konto można założyć, podając adres e-mail i hasło albo logując się kontem Google lub Apple. Umowa o świadczenie usług drogą elektroniczną zostaje zawarta z chwilą założenia Konta, na czas nieoznaczony.",
         "Użytkownik odpowiada za poufność hasła i za działania wykonane z użyciem jego Konta. O podejrzeniu nieuprawnionego dostępu należy niezwłocznie powiadomić Usługodawcę.",
-        "Użytkownik może w każdej chwili usunąć Konto, wysyłając prośbę na adres dbdcstudio@gmail.com z adresu przypisanego do Konta. Usunięcie Konta powoduje trwałe usunięcie danych Użytkownika.",
+        "Użytkownik może w każdej chwili samodzielnie usunąć Konto w aplikacji lub w wersji webowej (Ustawienia → Konto → Usuń konto) albo wysyłając prośbę na adres dbdcstudio@gmail.com z adresu przypisanego do Konta. Usunięcie Konta jest natychmiastowe i nieodwracalne oraz powoduje trwałe usunięcie danych Użytkownika. Szczegóły: https://myosiris.app/pl/delete-account/",
       ] },
       { h: "5. Plany i płatności", body: [
         "Plan „Za darmo” jest bezpłatny i obejmuje podstawowe funkcje z limitami opisanymi w Serwisie. Plany „Małe radości” (9,99 zł miesięcznie) oraz „Mądra głowa” (29,99 zł miesięcznie) rozszerzają limity, w szczególności liczbę wiadomości do Osi w ciągu dnia. Ceny zawierają podatki.",
@@ -38,7 +38,8 @@ const pl: LegalSet = {
         "Jeżeli Użytkownik zażąda rozpoczęcia świadczenia usługi płatnej przed upływem terminu na odstąpienie, w razie odstąpienia zapłaci za świadczenia spełnione do tej chwili. W przypadku treści cyfrowych dostarczanych niezwłocznie, za wyraźną zgodą Użytkownika i po poinformowaniu go o utracie prawa odstąpienia, prawo to nie przysługuje w zakresie już dostarczonych treści.",
       ] },
       { h: "7. Asystent Osi", body: [
-        "Osi wykorzystuje modele sztucznej inteligencji dostarczane przez Anthropic. Odpowiedzi są generowane automatycznie i mogą zawierać błędy lub nieścisłości. Osi nie świadczy porad prawnych, podatkowych, medycznych ani finansowych.",
+        "Osi wykorzystuje modele sztucznej inteligencji dostarczane przez Anthropic (model Claude). Odpowiedzi są generowane automatycznie i mogą zawierać błędy lub nieścisłości. Osi nie świadczy porad prawnych, podatkowych, medycznych ani finansowych.",
+        "Osi działa dopiero po wyrażeniu przez Użytkownika wyraźnej zgody na przekazywanie wiadomości i danych planera dostawcy AI. Zgodę można w każdej chwili cofnąć w ustawieniach (Konto → Osi i AI); pozostałe funkcje Serwisu działają wtedy bez zmian. Niewłaściwą odpowiedź Osi można zgłosić bezpośrednio w czacie.",
         "Osi proponuje zmiany w danych w formie kart; zmiany są zapisywane dopiero po ich zatwierdzeniu przez Użytkownika. Przed zatwierdzeniem Użytkownik powinien sprawdzić ich poprawność.",
         "Liczba wiadomości do Osi w ciągu dnia jest ograniczona i zależy od Planu.",
       ] },
@@ -52,20 +53,25 @@ const pl: LegalSet = {
         ],
         "W razie rażącego naruszenia Regulaminu Usługodawca może ograniczyć dostęp do Serwisu albo wypowiedzieć umowę, informując o tym Użytkownika.",
       ] },
-      { h: "9. Treści Użytkownika", body: [
+      { h: "9. Znajomi: zgłoszenia i blokowanie", body: [
+        "Funkcja znajomych służy do dzielenia się planami z bliskimi osobami. Zabronione jest wykorzystywanie zaproszeń, nazw wydarzeń i innych treści widocznych dla znajomych do nękania, obrażania, rozsyłania spamu albo treści bezprawnych.",
+        "Każdego znajomego można w dowolnej chwili usunąć albo zablokować — zablokowana osoba nie może ponownie wysłać zaproszenia. Niewłaściwe zachowanie innego użytkownika oraz niewłaściwą odpowiedź Osi można zgłosić bezpośrednio w aplikacji.",
+        "Zgłoszenia rozpatrujemy w ciągu 24 godzin. W razie potwierdzenia naruszenia Usługodawca może usunąć treści, ograniczyć funkcje albo zablokować Konto osoby naruszającej Regulamin.",
+      ] },
+      { h: "10. Treści Użytkownika", body: [
         "Treści wprowadzone do Serwisu pozostają własnością Użytkownika. Użytkownik udziela Usługodawcy niewyłącznej licencji na ich przechowywanie i przetwarzanie wyłącznie w zakresie niezbędnym do świadczenia usług.",
         "Funkcja znajomych pozwala udostępnić wybranym osobom nazwy, terminy i miejsca wydarzeń oraz zadań. Notatki i opisy nie są udostępniane. Nastrój jest udostępniany wyłącznie za odrębną zgodą, którą można w każdej chwili cofnąć.",
       ] },
-      { h: "10. Dostępność i odpowiedzialność", body: [
+      { h: "11. Dostępność i odpowiedzialność", body: [
         "Usługodawca dokłada starań, aby Serwis działał nieprzerwanie, jednak nie gwarantuje pełnej dostępności. Możliwe są przerwy techniczne, o których — w miarę możliwości — Usługodawca informuje z wyprzedzeniem.",
         "Serwis jest narzędziem pomocniczym. Użytkownik samodzielnie odpowiada za dotrzymywanie swoich terminów, w tym sądowych i urzędowych, oraz za prawidłowość danych w raportach przekazywanych osobom trzecim.",
         "Odpowiedzialność Usługodawcy wobec Użytkowników niebędących konsumentami jest ograniczona do kwoty opłat uiszczonych w ostatnich 12 miesiącach. Postanowienia Regulaminu nie wyłączają ani nie ograniczają praw konsumentów wynikających z bezwzględnie obowiązujących przepisów.",
       ] },
-      { h: "11. Reklamacje", body: [
+      { h: "12. Reklamacje", body: [
         "Reklamacje można składać na adres dbdcstudio@gmail.com, opisując problem i podając adres e-mail Konta. Usługodawca odpowiada na reklamację w terminie 14 dni od jej otrzymania.",
         "Konsument może skorzystać z pozasądowych sposobów rozpatrywania sporów, m.in. zwrócić się do miejskiego lub powiatowego rzecznika konsumentów albo skorzystać z platformy ODR: https://ec.europa.eu/consumers/odr.",
       ] },
-      { h: "12. Zmiany Regulaminu i postanowienia końcowe", body: [
+      { h: "13. Zmiany Regulaminu i postanowienia końcowe", body: [
         "Usługodawca może zmienić Regulamin z ważnych przyczyn: zmiany przepisów, wprowadzenia nowych funkcji lub płatności, względów bezpieczeństwa. O zmianie Użytkownicy zostaną powiadomieni w Serwisie lub e-mailem co najmniej 14 dni przed jej wejściem w życie. Użytkownik, który nie akceptuje zmian, może wypowiedzieć umowę, usuwając Konto.",
         "W sprawach nieuregulowanych stosuje się prawo polskie. Wybór prawa nie pozbawia konsumenta ochrony przyznanej mu przepisami państwa jego zwykłego pobytu.",
       ] },
@@ -83,48 +89,56 @@ const pl: LegalSet = {
         "Dane konta: adres e-mail, imię lub nazwa, hasło (w postaci zaszyfrowanego skrótu), zdjęcie profilowe, język, strefa czasowa, wybrany plan.",
         "Treści wprowadzone do aplikacji: wydarzenia, zadania, klienci i projekty, wpłaty, godziny pracy, cele, notatki, zapiski nastroju oraz informacje, które Użytkownik sam zapisze w polu „Co Osi wie o mnie”.",
         "Rozmowy z Osi oraz dane o wykorzystaniu asystenta (liczba wiadomości, liczba tokenów, koszt).",
-        "Dane techniczne: identyfikatory urządzeń do powiadomień push, informacje o błędach, przybliżony region wynikający ze strefy czasowej, typ urządzenia i przeglądarki.",
+        "Dane techniczne: identyfikatory urządzeń do powiadomień push, przybliżony region wynikający ze strefy czasowej, typ urządzenia i przeglądarki.",
+        "Diagnostyka błędów aplikacji i strony: treść błędu, wersja aplikacji, platforma (iOS, Android lub przeglądarka) oraz miejsce wystąpienia błędu.",
+        "Zgłoszenia: treść zgłoszenia dotyczącego innego użytkownika albo odpowiedzi Osi, zgłaszana odpowiedź lub nazwa zgłaszanej osoby, identyfikator zgłaszającego i data; a także lista osób zablokowanych przez Użytkownika.",
+        "Informacja o zgodzie na działanie AI: data jej wyrażenia.",
         "Czat dla gości na stronie: treść pytania i odpowiedzi oraz skrót (hash) adresu IP służący do liczenia limitu pytań. Samego adresu IP nie zapisujemy.",
         "Lista oczekujących: adres e-mail podany w formularzu „Daj mi znać”.",
       ],
         "Nie prosimy o podawanie danych szczególnych kategorii. Zapiski nastroju służą wyłącznie Użytkownikowi; jeżeli Użytkownik wpisze w Serwisie informacje o zdrowiu lub inne dane wrażliwe, robi to dobrowolnie.",
       ] },
       { h: "3. Cele i podstawy prawne", body: [[
-        "Świadczenie usług, prowadzenie Konta, działanie asystenta Osi — art. 6 ust. 1 lit. b RODO (wykonanie umowy).",
-        "Bezpieczeństwo Serwisu, zapobieganie nadużyciom, limity zapytań, dziennik błędów — art. 6 ust. 1 lit. f RODO (prawnie uzasadniony interes).",
+        "Świadczenie usług i prowadzenie Konta — art. 6 ust. 1 lit. b RODO (wykonanie umowy).",
+        "Działanie asystenta Osi, w tym przekazywanie wiadomości i danych planera dostawcy AI — art. 6 ust. 1 lit. a RODO (wyraźna zgoda wyrażona w aplikacji, którą można w każdej chwili cofnąć w ustawieniach).",
+        "Bezpieczeństwo Serwisu, zapobieganie nadużyciom, limity zapytań, diagnostyka błędów, rozpatrywanie zgłoszeń i moderacja — art. 6 ust. 1 lit. f RODO (prawnie uzasadniony interes).",
         "Anonimowe statystyki odwiedzin strony — art. 6 ust. 1 lit. a RODO (zgoda wyrażona w banerze cookies).",
         "Powiadomienie o premierze aplikacji (lista oczekujących) — art. 6 ust. 1 lit. a RODO (zgoda).",
         "Rozliczenia i obowiązki księgowe po uruchomieniu płatności — art. 6 ust. 1 lit. c RODO (obowiązek prawny).",
         "Dochodzenie roszczeń i obrona przed nimi — art. 6 ust. 1 lit. f RODO.",
       ]] },
       { h: "4. Sztuczna inteligencja", body: [
-        "Gdy Użytkownik pisze do Osi, do dostawcy modelu (Anthropic) przekazywana jest treść wiadomości oraz niezbędny kontekst z Konta: nadchodzące wydarzenia i zadania, klienci i projekty z saldami, cele, podsumowanie nastroju, notatki oraz informacje zapisane w polu „Co Osi wie o mnie”.",
-        "Dane te służą wyłącznie do wygenerowania odpowiedzi. Zgodnie z warunkami usług komercyjnych Anthropic nie są wykorzystywane do trenowania modeli. Osi nie podejmuje wobec Użytkownika decyzji wywołujących skutki prawne; każdą zmianę w danych zatwierdza Użytkownik.",
+        "Asystent Osi korzysta z modeli Claude firmy Anthropic (USA). Wiadomości i dane planera trafiają do dostawcy AI dopiero po wyrażeniu przez Użytkownika wyraźnej zgody w aplikacji. Bez zgody Osi nie jest w ogóle wywoływany — nie działają czat, szybki zapis ani podsumowanie dnia tworzone przez AI, a kalendarz, zadania, godziny i cele działają jak zwykle.",
+        "Po wyrażeniu zgody, gdy Użytkownik pisze do Osi albo prosi o podsumowanie dnia, na nasz serwer i do Anthropic przekazywana jest treść wiadomości oraz niezbędny kontekst z Konta: wydarzenia i zadania, klienci i projekty z saldami, godziny pracy, cele, podsumowanie nastroju, notatki oraz informacje zapisane w polu „Co Osi wie o mnie”.",
+        "Dane te służą wyłącznie do wygenerowania odpowiedzi. Zgodnie z warunkami Anthropic dane przekazywane przez API nie są wykorzystywane do trenowania modeli. Danych nie sprzedajemy i nie używamy ich do reklam. Osi nie podejmuje wobec Użytkownika decyzji wywołujących skutki prawne; każdą zmianę w danych zatwierdza Użytkownik.",
+        "Zgodę można w każdej chwili cofnąć w ustawieniach: Konto → Osi i AI. Od tej chwili żadne dane nie są przekazywane dostawcy AI.",
       ] },
       { h: "5. Odbiorcy danych", body: [
         "Dane powierzamy podmiotom, które pomagają nam świadczyć usługi, na podstawie umów powierzenia:",
         [
           "Supabase — baza danych, uwierzytelnianie, przechowywanie plików (centrum danych w Unii Europejskiej, Irlandia);",
           "Anthropic — generowanie odpowiedzi asystenta Osi (USA);",
-          "Google — logowanie kontem Google, o ile Użytkownik z niego korzysta;",
+          "Google i Apple — logowanie kontem Google lub Apple, o ile Użytkownik z niego korzysta;",
           "Apple oraz Google (Firebase) — dostarczanie powiadomień push do aplikacji mobilnych;",
           "GitHub — hosting strony internetowej (USA).",
         ],
-        "Znajomi dodani przez Użytkownika widzą wyłącznie dane opisane w Regulaminie (nazwy, terminy i miejsca; nastrój tylko za zgodą). Danych nie sprzedajemy i nie udostępniamy w celach reklamowych.",
+        "Znajomi dodani przez Użytkownika widzą wyłącznie dane opisane w Regulaminie (nazwy, terminy i miejsca; nastrój tylko za zgodą). Zgłoszenia dotyczące użytkowników i odpowiedzi Osi widzą wyłącznie osoby upoważnione do moderacji. Danych nie sprzedajemy i nie udostępniamy w celach reklamowych.",
       ] },
       { h: "6. Przekazywanie danych poza EOG", body: [
         "Część dostawców ma siedzibę w USA. Przekazanie danych odbywa się na podstawie decyzji Komisji Europejskiej stwierdzającej odpowiedni stopień ochrony (EU–U.S. Data Privacy Framework) albo standardowych klauzul umownych.",
       ] },
       { h: "7. Okres przechowywania", body: [[
-        "Dane Konta i treści — do czasu usunięcia Konta; kopie zapasowe są usuwane w ciągu kolejnych 30 dni.",
+        "Dane Konta i treści — do czasu usunięcia Konta. Konto usunięte w aplikacji znika natychmiast i nieodwracalnie; kopie zapasowe są usuwane w ciągu kolejnych 30 dni.",
+        "Zgłoszenia dotyczące użytkowników i odpowiedzi Osi — do 12 miesięcy od rozpatrzenia.",
         "Rozmowy czatu dla gości i statystyki odwiedzin — do 12 miesięcy.",
-        "Dziennik błędów i dane bezpieczeństwa — do 12 miesięcy.",
+        "Diagnostyka błędów i dane bezpieczeństwa — do 12 miesięcy.",
         "Lista oczekujących — do dnia wysłania powiadomienia o premierze albo do cofnięcia zgody.",
         "Dane rozliczeniowe — przez okres wymagany przepisami podatkowymi.",
       ]] },
       { h: "8. Prawa osób, których dane dotyczą", body: [
         "Każdej osobie przysługuje prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia danych, sprzeciwu wobec przetwarzania opartego na prawnie uzasadnionym interesie oraz cofnięcia zgody w dowolnym momencie (bez wpływu na zgodność z prawem wcześniejszego przetwarzania).",
-        "Aby skorzystać z praw, wystarczy napisać na adres dbdcstudio@gmail.com. Przysługuje również prawo wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).",
+        "Większość praw można wykonać samodzielnie w aplikacji i w wersji webowej: pobrać wszystkie swoje dane jednym plikiem (Ustawienia → Dane → Pobierz moje dane), cofnąć zgodę na działanie AI (Ustawienia → Konto → Osi i AI) oraz usunąć Konto wraz z danymi (Ustawienia → Konto → Usuń konto). Opis usuwania Konta, także bez logowania: https://myosiris.app/pl/delete-account/",
+        "W pozostałych sprawach wystarczy napisać na adres dbdcstudio@gmail.com. Przysługuje również prawo wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).",
       ] },
       { h: "9. Dobrowolność i bezpieczeństwo", body: [
         "Podanie danych jest dobrowolne, ale adres e-mail jest niezbędny do założenia Konta.",

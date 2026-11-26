@@ -13,6 +13,12 @@ import { daysLeft, fmtAmount, fmtCounting, fmtEntry, forecast, habitStats, noTic
 import { showStageEditor, showTrackerEditor } from "./trackerEditor";
 import "./goals.css";
 
+/** «Срок: 26 марта · через 5 дней». Для далёкой или прошедшей даты relDay возвращает ту же дату — тогда пишем её один раз. */
+function deadlineLine(d: Date): string {
+  const day = fmtDay(d), rel = relDay(d);
+  return rel === day ? `${tr("Срок")}: ${day}` : tr("Срок: {0} · {1}", [day, rel]);
+}
+
 export default function TrackerScreen() {
   const s = useStore();
   const id = useRoute().parts[1];
@@ -50,7 +56,7 @@ export default function TrackerScreen() {
               <Icon name={t.icon} size={26} />
               <h2>{t.title}</h2>
             </div>
-            {t.deadline && <p className="goal-hero-deadline">{tr("Срок: {0} · {1}", [fmtDay(t.deadline), relDay(t.deadline)])}</p>}
+            {t.deadline && <p className="goal-hero-deadline">{deadlineLine(t.deadline)}</p>}
             {t.notes && <p className="goal-hero-notes">{t.notes}</p>}
             <div className="goal-hero-body">
               {(t.kind === "money" || t.kind === "counter") && <AmountHero t={t} fg={fg} />}

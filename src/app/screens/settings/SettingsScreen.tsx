@@ -13,6 +13,9 @@ import { Theme, type ThemeMode } from "../../theme";
 import { PaperAvatar, forgetAvatar } from "../../widgets/Avatar";
 import { PlanCards } from "../plans/plans";
 import { hasPassword, setPassword, useAuthUser } from "../onboarding/Onboarding";
+import { AiConsent, sitePage } from "../account/consent";
+import { blockedSheet, changeEmailSheet, deleteAccountSheet, exportMyData } from "../account/sheets";
+import { replayTutorial } from "../account/Tutorial";
 import { startImport } from "./importSheet";
 import "./SettingsScreen.css";
 
@@ -60,7 +63,7 @@ export default function SettingsScreen() {
             : tab === "look" ? <LookTab s={s} />
             : tab === "notify" ? <NotifyTab s={s} />
             : tab === "data" ? <DataTab />
-            : <AccountTab />}
+            : <AccountTab s={s} />}
         </SlideSwitcher>
       </div>
     </div>
@@ -287,6 +290,13 @@ function NotifyTab({ s }: { s: Store }) {
 
 function DataTab() {
   const file = useRef<HTMLInputElement>(null);
+  const [exporting, setExporting] = useState(false);
+  const download = async () => {
+    if (exporting) return;
+    setExporting(true);
+    await exportMyData();
+    setExporting(false);
+  };
   return (
     <>
       <SectionTitle>{tr("Перенос данных")}</SectionTitle>
@@ -300,14 +310,18 @@ function DataTab() {
       </Card>
       <input ref={file} type="file" hidden aria-label={tr("Файл экспорта")} onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; if (f) void startImport(f); }} />
       <p className="set-hint">{tr("В Structured: Настройки → О приложении → Конфиденциальность → «Экспорт данных», сохрани файл и выбери его здесь.")}</p>
+
+      <SectionTitle>{tr("Мои данные")}</SectionTitle>
+      <Card seed={2} lift={3} padding="4px 14px">
+        <Row title={tr("Скачать мои данные")} sub={tr("Все твои записи одним файлом JSON — сохранить или отправить")} onClick={() => void download()}>
+          {exporting ? <span className="spin" aria-hidden /> : <Icon name="download" size={17} />}
+        </Row>
+      </Card>
     </>
   );
 }
 
 // ---------------------------------------------------------------- Аккаунт
-
-/** Адрес страницы сайта на языке интерфейса: /pl/…, /ru/…, английская — без префикса. */
-const sitePage = (p: string) => `/${{ ru: "ru/", pl: "pl/", en: "" }[L.lang]}${p}/`;
 
 function LinkRow({ href, title, sub, icon = "external" }: { href: string; title: string; sub?: string; icon?: string }) {
   const out = !href.startsWith("mailto:");
@@ -322,9 +336,15 @@ function LinkRow({ href, title, sub, icon = "external" }: { href: string; title:
   );
 }
 
-function AccountTab() {
+function AccountTab({ s }: { s: Store }) {
   const user = useAuthUser();
   const has = hasPassword(user);
+  const consent = AiConsent.granted || !AiConsent.known; // поле ещё не пришло с сервера — Оси не блокируется
+
+  const toggleOsi = async (v: boolean) => {
+    if (v) await AiConsent.ensure();
+    else if (await confirm(tr("Выключить Оси? Чат, быстрая запись и сводка дня перестанут работать."), { action: tr("Выключить") })) await AiConsent.revoke();
+  };
 
   const signOut = async () => {
     if (!(await confirm(tr("Выйти из аккаунта?"), { action: tr("Выйти") }))) return;
@@ -340,7 +360,31 @@ function AccountTab() {
         <Row title={tr("Пароль")} sub={<span className={`set-pass${user && !has ? " none" : ""}`}>{!user ? (user === null ? "" : "…") : has ? tr("Вход по почте и паролю") : tr("Пароля нет — вход только через Google")}</span>}>
           <Pill dense disabled={!user} onClick={() => void showPasswordSheet(user?.email ?? "")}>{has ? tr("Сменить") : tr("Задать")}</Pill>
         </Row>
-        <Row title={tr("Почта")} sub={user?.email ?? ""} />
+        <Row title={tr("Почта")} sub={user?.email ?? ""}>
+          <Pill dense disabled={!user} onClick={() => void changeEmailSheet(user?.email ?? "")}>{tr("Сменить")}</Pill>
+        </Row>
+      </Card>
+
+      <SectionTitle>{tr("Оси и ИИ")}</SectionTitle>
+      <Card seed={4} lift={3} padding="4px 14px">
+        <Row title={tr("Оси включён")} sub={tr("Сообщения и данные планера передаются поставщику ИИ (Anthropic), чтобы Оси отвечал")}>
+          <Switch value={consent} disabled={!s.profile} onChange={(v) => void toggleOsi(v)} label={tr("Оси включён")} />
+        </Row>
+      </Card>
+
+      <SectionTitle>{tr("Друзья")}</SectionTitle>
+      <Card seed={5} lift={3} padding="4px 14px">
+        <Row title={tr("Заблокированные")} sub={tr("Кого ты заблокировал — можно разблокировать")} onClick={() => void blockedSheet()}>
+          <Icon name="right" size={17} />
+        </Row>
+      </Card>
+
+      <SectionTitle>{tr("Помощь")}</SectionTitle>
+      <Card seed={6} lift={3} padding="4px 14px">
+        <Row title={tr("Показать обучение")} sub={tr("Пять коротких подсказок, как пользоваться OSIRIS")} onClick={replayTutorial}>
+          <Icon name="right" size={17} />
+        </Row>
+        <LinkRow href={sitePage("support")} title={tr("Поддержка")} sub="myosiris.app" />
       </Card>
 
       <SectionTitle>{tr("Документы и связь")}</SectionTitle>
@@ -356,12 +400,7 @@ function AccountTab() {
         <Button ghost expand icon="logout" onClick={() => void signOut()}>{tr("Выйти")}</Button>
       </div>
 
-      <SectionTitle>{tr("Удаление")}</SectionTitle>
-      <Card seed={1} lift={3} padding="4px 14px">
-        <Row danger title={tr("Удалить аккаунт")} sub={tr("По запросу на почту — вместе со всеми данными")} onClick={() => void showDeleteAccount(user?.email ?? "")}>
-          <Icon name="right" size={17} />
-        </Row>
-      </Card>
+      <button type="button" className="set-delete" onClick={() => void deleteAccountSheet(user?.email ?? "")}>{tr("Удалить аккаунт")}</button>
 
       <div className="set-logo">
         <LogoMark size={54} />
@@ -402,21 +441,4 @@ function PasswordSheet({ email, close }: { email: string; close: () => void }) {
       <Field label={tr("Ещё раз")} value={b} onChange={setB} type="password" autoComplete="new-password" error={err} onEnter={() => void save()} />
     </form>
   );
-}
-
-/** Удаление аккаунта — по письму: сервер сам аккаунты не удаляет. */
-function showDeleteAccount(email: string) {
-  const subject = tr("OSIRIS: удалить аккаунт");
-  const body = email ? tr("Прошу удалить мой аккаунт OSIRIS и все его данные. Почта аккаунта: {0}", [email]) : tr("Прошу удалить мой аккаунт OSIRIS и все его данные.");
-  const href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  return openSheet<void>((close): ReactNode => (
-    <div className="dialog">
-      <h3>{tr("Удалить аккаунт")}</h3>
-      <p>{tr("Аккаунт удаляется по запросу: напиши на {0} с почты, на которую он зарегистрирован. Вместе с аккаунтом удаляются все дела, заметки, цели и переписка с Оси — вернуть их будет нельзя.", [CONTACT_EMAIL])}</p>
-      <div className="dialog-actions">
-        <Button ghost onClick={() => close()}>{tr("Отмена")}</Button>
-        <Button danger icon="mail" onClick={() => { location.href = href; close(); }}>{tr("Написать письмо")}</Button>
-      </div>
-    </div>
-  ));
 }

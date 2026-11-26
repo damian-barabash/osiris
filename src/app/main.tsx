@@ -6,8 +6,8 @@ import { createRoot } from "react-dom/client";
 import type { Session } from "@supabase/supabase-js";
 import { L, loadLang, tr } from "@/i18n";
 import { installErrorReporting, reportError } from "@/lib/report";
-import { Overlays, closeAllSheets, Osi, Button } from "@/ui";
-import { sb } from "./sb";
+import { Overlays, closeAllSheets, Osi, Button, toast } from "@/ui";
+import { sb, recoveryLink } from "./sb";
 import { store } from "./data/store";
 import { friends } from "./data/friends";
 import { Theme } from "./theme";
@@ -27,7 +27,17 @@ function App() {
   useEffect(() => L.subscribe(() => setLang(L.lang)), []);
 
   useEffect(() => {
-    void sb.auth.getSession().then(({ data }) => setSession(data.session));
+    // ссылка «Забыли пароль?»: входим по токенам из письма и сразу просим новый пароль
+    if (recoveryLink.access) {
+      void sb.auth.setSession({ access_token: recoveryLink.access, refresh_token: recoveryLink.refresh! }).then(({ data, error }) => {
+        if (error || !data.session) { toast(tr("Ссылка из письма устарела. Запроси письмо ещё раз."), "error"); return sb.auth.getSession().then(({ data: d }) => setSession(d.session)); }
+        setRecovery(true); setSession(data.session);
+      });
+      recoveryLink.access = undefined;
+    } else {
+      if (recoveryLink.error) { toast(tr("Ссылка из письма устарела. Запроси письмо ещё раз."), "error"); recoveryLink.error = undefined; }
+      void sb.auth.getSession().then(({ data }) => setSession(data.session));
+    }
     const { data } = sb.auth.onAuthStateChange((event, s) => {
       if (event === "PASSWORD_RECOVERY") setRecovery(true);
       setSession(s);

@@ -1,6 +1,7 @@
 // Заголовки, описания, hreflang и структурированные данные для каждой страницы и языка (вставляются при пререндере).
 import { SITE_URL } from "@/config";
 import { COMPANY, CONTENT, SITE_LANGS, prefix, type SiteLang } from "./content";
+import { HELP, HELP_KEYS, type HelpKey } from "./help";
 import { LEGAL } from "./legal";
 import type { PageKey } from "./Site";
 
@@ -10,7 +11,7 @@ const OG_LOCALE: Record<SiteLang, string> = { en: "en_GB", pl: "pl_PL", ru: "ru_
 
 export function headFor(lang: SiteLang, page: PageKey): string {
   const c = CONTENT[lang];
-  const legal = page && page !== "404" ? LEGAL[lang][page] : null;
+  const legal = !page || page === "404" ? null : (HELP_KEYS as string[]).includes(page) ? HELP[lang][page as HelpKey] : LEGAL[lang][page as Exclude<typeof page, HelpKey>];
   const title = page === "404" ? `${c.notFound.title} — OSIRIS` : legal ? `${legal.title} — OSIRIS` : c.meta.title;
   const desc = legal ? legal.intro : page === "404" ? c.notFound.text : c.meta.description;
   const url = urlOf(lang, page);

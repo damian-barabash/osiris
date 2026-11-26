@@ -1,5 +1,5 @@
 // После сборки: статический HTML для каждой страницы и языка, sitemap.xml, robots.txt, 404.html.
-//   dist/index.html (en) · dist/pl/index.html · dist/ru/index.html · dist/<lang>/<terms|privacy|cookies>/index.html
+//   dist/index.html (en) · dist/pl/index.html · dist/ru/index.html · dist/<lang>/<terms|privacy|cookies|support|delete-account>/index.html
 import { mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";

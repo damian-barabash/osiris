@@ -122,6 +122,8 @@ export function Footer({ lang }: { lang: SiteLang }) {
           <button type="button" onClick={openCookieSettings}>{f.cookieSettings}</button>
         </FtCol>
         <FtCol title={f.contact}>
+          <a href={pageUrl(lang, "support")}>{f.support}</a>
+          <a href={pageUrl(lang, "delete-account")}>{f.deleteAccount}</a>
           <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
           <a href={COMPANY.studioUrl} target="_blank" rel="noopener">dbdcstudio.pl</a>
         </FtCol>

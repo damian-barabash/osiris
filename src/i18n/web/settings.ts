@@ -25,16 +25,5 @@ const d: Record<string, [string, string]> = {
   "Написать нам": ["Napisz do nas", "Contact us"],
   "Версия": ["Wersja", "Version"],
   "Веб-версия сверена с приложением {0}": ["Wersja webowa zgodna z aplikacją {0}", "Web version matches app {0}"],
-  "Удаление": ["Usuwanie", "Deletion"],
-  "Удалить аккаунт": ["Usuń konto", "Delete account"],
-  "По запросу на почту — вместе со всеми данными": ["Na prośbę wysłaną e-mailem — razem ze wszystkimi danymi", "On request by email — together with all data"],
-  "OSIRIS: удалить аккаунт": ["OSIRIS: usunięcie konta", "OSIRIS: delete account"],
-  "Прошу удалить мой аккаунт OSIRIS и все его данные. Почта аккаунта: {0}": ["Proszę o usunięcie mojego konta OSIRIS i wszystkich jego danych. E-mail konta: {0}", "Please delete my OSIRIS account and all of its data. Account email: {0}"],
-  "Прошу удалить мой аккаунт OSIRIS и все его данные.": ["Proszę o usunięcie mojego konta OSIRIS i wszystkich jego danych.", "Please delete my OSIRIS account and all of its data."],
-  "Аккаунт удаляется по запросу: напиши на {0} с почты, на которую он зарегистрирован. Вместе с аккаунтом удаляются все дела, заметки, цели и переписка с Оси — вернуть их будет нельзя.": [
-    "Konto usuwamy na prośbę: napisz na {0} z adresu, na który jest zarejestrowane. Razem z kontem znikają wszystkie sprawy, notatki, cele i rozmowy z Osi — nie da się ich przywrócić.",
-    "Accounts are deleted on request: write to {0} from the email the account is registered with. All your items, notes, goals and chats with Osi are deleted with it — they can't be restored.",
-  ],
-  "Написать письмо": ["Napisz e-mail", "Write the email"],
 };
 export default d;

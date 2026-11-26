@@ -8,6 +8,7 @@ import { addDays, day0, sameDate, weekday } from "../../data/repeat";
 import { fmtDay, fmtDayShort, fmtWeekday } from "../../format";
 import { back, useRoute } from "../../router";
 import { AgendaCards } from "../../widgets/AgendaCard";
+import { reportSheet } from "../account/sheets";
 import { inviteWhen, showInvite } from "./invites";
 import { FriendAvatar, FriendMood, friendNow } from "./parts";
 import "./friends.css";
@@ -23,13 +24,21 @@ function Settings({ friend: f }: { friend: Friend }) {
     if (!(await confirm(tr("Удалить из друзей: {0}? Вы перестанете видеть планы друг друга.", [f.name])))) return;
     try { await fr.remove(f); back("/friends"); } catch (e) { toast(tr("Ошибка: {0}", [errText(e)]), "error"); }
   };
+  const block = async () => {
+    if (!(await confirm(tr("Заблокировать: {0}? Дружба удалится, и этот человек больше не сможет тебя пригласить.", [f.name]), { action: tr("Заблокировать") }))) return;
+    try { await fr.block(f); back("/friends"); } catch (e) { toast(tr("Ошибка: {0}", [errText(e)]), "error"); }
+  };
   return (
     <Card seed={3} className="fr-settings">
       <Row title={tr("Показывать моё настроение")} sub={tr("{0} увидит твою последнюю отметку", [f.name])}>
         <Switch value={f.iShareMood} onChange={(v) => void setMood(v)} label={tr("Показывать моё настроение")} />
       </Row>
       <p>{tr("Вы видите события и задачи друг друга из всех календарей. Заметки и описания — нет.")}</p>
-      <button type="button" className="fr-remove" onClick={() => void remove()}><Icon name="user-x" size={16} />{tr("Удалить из друзей")}</button>
+      <div className="fr-danger">
+        <button type="button" className="fr-remove" onClick={() => void remove()}><Icon name="user-x" size={16} />{tr("Удалить из друзей")}</button>
+        <button type="button" className="fr-remove" onClick={() => void block()}><Icon name="shield" size={16} />{tr("Заблокировать")}</button>
+        <button type="button" className="fr-remove soft" onClick={() => void reportSheet({ kind: "user", targetUser: f.id, content: f.name, title: tr("Пожаловаться: {0}", [f.name]) })}><Icon name="flag" size={16} />{tr("Пожаловаться")}</button>
+      </div>
     </Card>
   );
 }

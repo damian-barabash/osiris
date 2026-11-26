@@ -9,6 +9,8 @@ import { useStore } from "../../data/store";
 import { useRoute, nav } from "../../router";
 import { sb } from "../../sb";
 import { Plans, showPlans } from "../plans/plans";
+import { AiConsent } from "../account/consent";
+import { reportSheet } from "../account/sheets";
 import { takeQueuedQuestion } from "./ask";
 import { ActionProposal, BuildingProposal, RichMessage, WaitingDots, cleanReply, keptActions, noEmoji, useAutoGrow, useLive, useLivePhase, useLiveText, useSpeech, type Live } from "./parts";
 import "./chat.css";
@@ -167,6 +169,12 @@ export default function ChatScreen() {
     busy.current = true; // сразу: второй Enter в тот же миг не должен отправить вопрос дважды
     if (preset == null) setInput("");
     if (await confirmPending(text)) return;
+    // без согласия на работу ИИ вопрос не уходит: остаётся в поле
+    if (!(await AiConsent.ensure())) {
+      busy.current = false;
+      if (preset == null) setInput(text);
+      return;
+    }
     if (!s.online) {
       // офлайн-очереди в вебе нет: вопрос остаётся в поле
       busy.current = false;
@@ -375,7 +383,7 @@ const MessageView = memo(function MessageView({ m, fresh, onApplied }: { m: Chat
   if (m.mine) return <Bubble mine text={m.content} fresh={fresh} />;
   return (
     <>
-      <Bubble text={m.content} fresh={fresh} />
+      <Bubble text={m.content} fresh={fresh} onReport={() => void reportSheet({ kind: "osi", content: m.content, title: tr("Пожаловаться на ответ Оси") })} />
       {m.actions.length > 0 && (
         <div className={"chat-prop-wrap" + (fresh ? " chat-in" : "")}>
           <ActionProposal actions={m.actions} status={m.actionsStatus} messageId={m.id} onDone={(st) => { if (st === "applied") onApplied(); }} />
@@ -386,13 +394,15 @@ const MessageView = memo(function MessageView({ m, fresh, onApplied }: { m: Chat
 });
 
 /** Пузырь — бумажный лист: мой — чернильный, Оси — сливочный, с маленьким Оси рядом. */
-function Bubble({ text, mine = false, typing = false, fresh = false }: { text: string; mine?: boolean; typing?: boolean; fresh?: boolean }) {
+function Bubble({ text, mine = false, typing = false, fresh = false, onReport }: { text: string; mine?: boolean; typing?: boolean; fresh?: boolean; onReport?: () => void }) {
   return (
     <div className={"chat-row" + (mine ? " mine" : "") + (fresh ? " chat-in" : "")}>
       {!mine && <Osi size={34} mood={typing ? "excited" : "calm"} animate={typing} className="chat-row-osi" />}
       <Card seed={typing ? 3 : seedOf(text)} lift={2} padding="10px 14px" className={"chat-bubble " + (mine ? "mine" : "osi")}>
         {mine ? <p className="chat-mine-text">{text}</p> : <RichMessage text={text} cursor={typing} />}
       </Card>
+      {/* флажок: на ноутбуке проявляется при наведении и с клавиатуры, на телефоне виден всегда (приглушённо) */}
+      {onReport && <button type="button" className="chat-report" aria-label={tr("Пожаловаться на ответ Оси")} title={tr("Пожаловаться на ответ Оси")} onClick={onReport}><Icon name="flag" size={14} /></button>}
     </div>
   );
 }

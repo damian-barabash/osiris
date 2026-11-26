@@ -10,5 +10,6 @@ import chat from "./chat";
 import social from "./social";
 import mood from "./mood";
 import settings from "./settings";
+import account from "./account";
 
-export const WEB: Record<string, [string, string]> = { ...core, ...today, ...calendar, ...work, ...hours, ...goals, ...chat, ...social, ...mood, ...settings };
+export const WEB: Record<string, [string, string]> = { ...core, ...today, ...calendar, ...work, ...hours, ...goals, ...chat, ...social, ...mood, ...settings, ...account };

@@ -54,6 +54,9 @@
 .set-pass.none { color: var(--danger); }
 .set-version { font-weight: 800; font-size: 14px; color: var(--ink-soft); }
 .set-out { margin-top: 24px; }
+.set-delete { display: block; margin: 12px auto 0; padding: 10px 14px; border-radius: 12px; font-size: 14.5px; font-weight: 800; color: var(--danger); transition: background-color 0.2s; }
+.set-delete:hover { background: color-mix(in srgb, var(--danger) 10%, transparent); }
+.set-pane .row .spin { flex: none; width: 17px; height: 17px; }
 .set-logo { display: grid; justify-items: center; gap: 8px; margin-top: 34px; color: var(--ink-soft); }
 
 @media (max-width: 899px) {

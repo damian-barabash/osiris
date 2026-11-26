@@ -41,6 +41,17 @@
 .ad-err-top b { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
 .ad-err-meta { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
 .ad-stack { max-height: 260px; margin: 12px 0; padding: 12px 14px; overflow: auto; border-radius: 14px; background: var(--paper); font: 500 12px/1.5 ui-monospace, Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ad-rep-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.ad-rep-top b { flex: 1; min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
+.ad-rep-top small { font-size: 12.5px; font-weight: 700; color: var(--ink-soft); }
+.ad-rep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1.4px dashed var(--line); }
+.ad-rep-grid div { display: grid; }
+.ad-rep-grid small, .ad-rep-label { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-soft); }
+.ad-rep-grid b { font-weight: 700; font-size: 14px; overflow-wrap: anywhere; }
+.ad-rep-label { display: block; margin-top: 14px; }
+.ad-rep .ad-rep-reason, .ad-rep .ad-rep-content { margin: 6px 0 0; }
+.ad-rep .ad-rep-content { max-height: 240px; overflow: auto; }
+.ad-rep .ad-actions { margin-top: 14px; }
 .ad-chat-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .ad-chat-top small { font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-right: auto; }
 .ad-q, .ad-a { margin-top: 10px; padding: 10px 14px; border-radius: 16px; font-weight: 600; font-size: 14.5px; white-space: pre-wrap; overflow-wrap: anywhere; }

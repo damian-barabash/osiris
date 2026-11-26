@@ -87,6 +87,9 @@
 .fr-settings p { margin: 8px 4px 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
 .fr-remove { display: inline-flex; align-items: center; gap: 7px; margin-left: -4px; padding: 9px 10px; border-radius: 12px; font-weight: 800; color: var(--danger); transition: background-color 0.2s; }
 .fr-remove:hover { background: color-mix(in srgb, var(--danger) 10%, transparent); }
+.fr-danger { display: grid; justify-items: start; }
+.fr-remove.soft { color: var(--ink-soft); }
+.fr-remove.soft:hover { background: color-mix(in srgb, var(--ink) 7%, transparent); }
 
 /* ---------- согласие */
 .fr-consent-osi { display: grid; place-items: center; padding: 2px 0 10px; }

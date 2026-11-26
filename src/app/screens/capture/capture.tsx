@@ -7,6 +7,7 @@ import { Assistant, type AssistantReply } from "../../data/assistant";
 import { sameDate } from "../../data/repeat";
 import { store } from "../../data/store";
 import { fmtDay } from "../../format";
+import { AiConsent } from "../account/consent";
 import { showEventEditor } from "../calendar/eventEditor";
 import { ActionProposal, BuildingProposal, RichMessage, cleanReply, useAutoGrow, useLive, useLiveText, useSpeech, type Live } from "../chat/parts";
 import { showTrackerEditor } from "../goals/trackerEditor";
@@ -45,7 +46,9 @@ function CaptureSheet({ voice, text: preset, day, close }: { voice: boolean; tex
       setError(tr("Нет связи с сервером. Проверь интернет."));
       return;
     }
+    // без согласия на работу ИИ запись не уходит: остаётся в поле
     sending.current = true;
+    if (!(await AiConsent.ensure()) || !alive.current) { sending.current = false; return; }
     setBusy(true);
     setError(null);
     setReply(null);

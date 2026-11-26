@@ -27,6 +27,10 @@
 .paper.chat-bubble { min-width: 0; max-width: min(78%, 580px); overflow-wrap: anywhere; font-size: 15px; line-height: 1.38; }
 .paper.chat-bubble.mine { --sheet: var(--ink); --on: var(--paper); border-radius: 20px 22px 7px 21px / 22px 19px 8px 20px; }
 .paper.chat-bubble.osi { --sheet: var(--butter); --on: var(--ink-dark); border-radius: 21px 20px 22px 7px / 19px 22px 20px 8px; }
+.chat-report { display: grid; place-items: center; flex: none; align-self: center; width: 28px; height: 32px; border-radius: 50%; color: var(--ink-faint); opacity: 0; transition: opacity 0.2s var(--ease-out), color 0.2s, transform 0.25s var(--ease-back); }
+.chat-row:hover .chat-report, .chat-report:focus-visible { opacity: 1; }
+.chat-report:hover { color: var(--danger); transform: rotate(-10deg) scale(1.12); }
+@media (hover: none) { .chat-report { opacity: 0.6; } }
 .chat-mine-text { white-space: pre-wrap; font-weight: 600; line-height: 1.3; }
 .chat-in { animation: chat-in 0.34s var(--ease-out) both; }
 .chat-row.mine.chat-in { animation-name: chat-in-mine; }
