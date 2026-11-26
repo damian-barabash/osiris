@@ -76,9 +76,24 @@ export function Switch({ value, onChange, disabled, label }: { value: boolean; o
 
 /** Бумажная галочка (PaperCheck): при отметке растёт оранжевый лист и проявляется галочка «от руки». */
 export function Check({ value, onChange, size = 24, color, label }: { value: boolean; onChange?: (v: boolean) => void; size?: number; color?: string | null; label?: string }) {
+  const [on, setOn] = useState(value);
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const cb = useRef(onChange);
+  cb.current = onChange;
+  useEffect(() => { if (!timer.current) setOn(value); }, [value]);
+  useEffect(() => () => { if (timer.current) { clearTimeout(timer.current); timer.current = undefined; } }, []);
+  const click = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const next = !on;
+    setOn(next); // галочка рисуется сразу, одним лёгким обновлением
+    clearTimeout(timer.current);
+    // сама запись пересобирает экран — пусть это случится, когда анимация уже отыграла
+    timer.current = setTimeout(() => { timer.current = undefined; if (next !== value) cb.current?.(next); }, 340);
+  };
+  value = on;
   return (
     <button type="button" role="checkbox" aria-checked={value} aria-label={label ?? tr("Готово")} className={cx("check", value && "on")} style={{ width: size, height: size, ...(color ? ({ "--check": colorOf(color) } as CSSProperties) : {}) }}
-      onClick={(e) => { e.stopPropagation(); onChange?.(!value); }}>
+      onClick={click}>
       <svg viewBox="0 0 24 24" aria-hidden><path d="M5.5 12.8 L10.2 17 L18.5 7.4" pathLength={1} /></svg>
     </button>
   );

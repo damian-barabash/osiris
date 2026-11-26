@@ -134,6 +134,8 @@ export class Tracker extends Model {
   get unit(): string | null { return this.raw.unit ?? null; }
   get notes(): string { return this.raw.notes ?? ""; }
   get archived() { return this.raw.archived === true; }
+  /** Событие, к которому привязана копилка на подарок. */
+  get eventId(): string | null { return this.raw.event_id ?? null; }
 }
 
 export class Stage extends Model {

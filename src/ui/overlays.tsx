@@ -135,7 +135,7 @@ function SheetView({ s, top }: { s: SheetItem; top: boolean }) {
   const onUp = () => { if (drag > 110 && s.dismissable) closeSheet(s.id); setDrag(0); start.current = null; };
 
   return (
-    <div className={`sheet-layer${s.closing ? " closing" : ""}${s.side ? " side" : ""}`}>
+    <div className={`sheet-layer${s.closing ? " closing" : ""}${s.side ? " as-panel" : ""}`}>
       <div className="sheet-backdrop" onClick={() => s.dismissable && closeSheet(s.id)} />
       <div ref={ref} role="dialog" aria-modal="true" tabIndex={-1} className={`sheet${s.wide ? " wide" : ""}`} style={drag ? { transform: `translateY(${drag}px)`, transition: "none" } : undefined}>
         <div className="sheet-grip" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}><span /></div>

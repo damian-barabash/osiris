@@ -13,7 +13,7 @@ export function LogoMark({ size = 36, color = "#E2582B", draw = false, flat = fa
       <path d={LOWER} pathLength={1} fill="none" stroke={c} strokeWidth={25} strokeLinejoin="miter" strokeMiterlimit={8} className="lm-lower" />
       <path d={UPPER} pathLength={1} fill="none" stroke={c} strokeWidth={25} strokeLinejoin="miter" strokeMiterlimit={8} className="lm-upper" />
       {RAYS.map(([x, y, r], i) => (
-        <rect key={i} x={x - 14} y={y - 31} width={28} height={62} rx={4} fill={c} transform={`rotate(${r} ${x} ${y})`} className="lm-ray" style={{ transformOrigin: `${x}px ${y}px`, ["--i" as string]: i }} />
+        <g key={i} transform={`translate(${x} ${y}) rotate(${r})`}><rect x={-14} y={-31} width={28} height={62} rx={4} fill={c} className="lm-ray" style={{ ["--i" as string]: i }} /></g>
       ))}
     </g>
   );

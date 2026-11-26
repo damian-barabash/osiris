@@ -1,5 +1,6 @@
 // Цель целиком — порт app/lib/screens/goals/tracker_screen.dart: лист цели с итогом и тело по виду
 // (деньги и счётчик — история записей, этапы — лента этапов, привычка — сетка 16 недель).
+import { GiftLink } from "./gift";
 import { useState } from "react";
 import { plural, tr } from "@/i18n";
 import { Appear, Button, Card, CountUp, EmptyState, Field, Icon, Progress, RoundButton, ScreenHeader, SectionTitle, SheetHeader, Tag, colorOf, confirm, onColor, openSheet } from "@/ui";
@@ -57,6 +58,7 @@ export default function TrackerScreen() {
               {t.kind === "habit" && <HabitHero t={t} />}
             </div>
           </Card>
+          <GiftLink t={t} />
           {(t.kind === "money" || t.kind === "counter") && (
             <div className="goal-actions">
               {t.kind === "counter" && <Button color={t.color} className="goal-plus-one" onClick={() => void store.insert("tracker_entries", { tracker_id: t.id, amount: 1, note: "", entry_on: dateOnly(new Date()) })}>+1</Button>}

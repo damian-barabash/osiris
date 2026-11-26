@@ -1,6 +1,7 @@
 // Вход и регистрация — как экран входа приложения (app/lib/screens/login_screen.dart): почта + пароль, Google.
 import { useState } from "react";
 import { tr } from "@/i18n";
+import { GOOGLE_WEB } from "@/config";
 import { Button, Card, Cutout, Field, Logo, Osi, Pill, toast } from "@/ui";
 import { sb } from "../sb";
 
@@ -84,10 +85,14 @@ export function Login() {
           <Button type="submit" expand busy={busy === "form"} color="orange">{signup ? tr("Зарегистрироваться") : tr("Войти")}</Button>
         </form>
         {!signup && <button type="button" className="auth-link" onClick={reset}>{tr("Забыл пароль?")}</button>}
-        <div className="auth-or"><span>{tr("или")}</span></div>
-        <Button ghost expand busy={busy === "google"} onClick={google}>
-          <span className="g-mark" aria-hidden>G</span> {tr("Продолжить с Google")}
-        </Button>
+        {GOOGLE_WEB && (
+          <>
+            <div className="auth-or"><span>{tr("или")}</span></div>
+            <Button ghost expand busy={busy === "google"} onClick={google}>
+              <span className="g-mark" aria-hidden>G</span> {tr("Продолжить с Google")}
+            </Button>
+          </>
+        )}
         <p className="auth-legal">{a}{terms}{b}{privacy}{c}</p>
       </Card>
     </main>

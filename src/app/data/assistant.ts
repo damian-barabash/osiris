@@ -504,6 +504,8 @@ async function run(actions: Row[]): Promise<number> {
         const id = await s.insert("trackers", {
           title: text(a.title) ?? tr("Цель"), kind, target: num(a.target, 0), unit: text(a.unit, 40), deadline: dateStr(a.deadline), sphere: sphere(a.sphere ?? "personal"),
           icon: iconFor(kind), color: nextColor(s.trackers.length + 5),
+          // копилка на подарок: ссылка на событие (существующее или созданное этим же ответом)
+          event_id: idOf(a, "event_id", "event_ref", (x) => s.events.some((e) => e.id === x)),
         });
         remember(a, id);
         // сервер мог отказать (лимит тарифа) — тогда строка уже откатилась и этапы создавать не для чего

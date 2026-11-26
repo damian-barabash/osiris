@@ -12,6 +12,7 @@ import Onboarding from "../screens/onboarding/Onboarding";
 import { maybeShowCheckin } from "../screens/checkin";
 import { maybeAskMood } from "../screens/mood/moodSheet";
 import { showCapture } from "../screens/capture/capture";
+import { maybeOfferGift } from "../screens/goals/gift";
 
 const S = {
   today: lazy(() => import("../screens/today/TodayScreen")),
@@ -66,7 +67,13 @@ export function Shell() {
   useEffect(() => {
     if (!ready || gate || entered.current) return;
     entered.current = true;
-    const t = setTimeout(async () => { if (!(await maybeShowCheckin())) await maybeAskMood(); }, 900);
+    // по очереди, не больше одного листа за вход: «ты это сделал?» → настроение → копилка на подарок
+    const t = setTimeout(async () => {
+      if (await maybeShowCheckin()) return;
+      const before = document.querySelectorAll(".sheet-layer").length;
+      await maybeAskMood();
+      if (!before && !document.querySelector(".sheet-layer")) setTimeout(() => void maybeOfferGift(), 600);
+    }, 900);
     return () => clearTimeout(t);
   }, [ready, gate]);
 

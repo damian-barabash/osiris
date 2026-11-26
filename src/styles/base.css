@@ -57,7 +57,7 @@ img, svg { display: block; max-width: 100%; }
 
 /* Появление при прокрутке: .rv → .rv.in (ставит IntersectionObserver) */
 .rv { opacity: 0; transform: translateY(26px) rotate(-0.6deg); transition: opacity 0.7s var(--ease-out), transform 0.9s var(--ease-out); transition-delay: var(--d, 0s); }
-.rv.in { opacity: 1; transform: none; }
+.rv[data-in] { opacity: 1; transform: none; }
 html.no-js .rv { opacity: 1; transform: none; }
 
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

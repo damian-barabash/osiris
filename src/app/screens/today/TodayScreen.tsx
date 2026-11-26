@@ -1,6 +1,7 @@
 // Главная «Сегодня» — порт app/lib/screens/today/today_screen.dart.
 // Телефон — одна колонка, как в приложении; ноутбук — две: слева дата и план дня, справа лента бумажных листов
 // (сводка Оси, «Не проспать», деньги, настроение, заметки, друзья).
+import { GiftNudges } from "../goals/gift";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { L, plural, tr } from "@/i18n";
 import { Appear, Card, Check, Collapse, Cutout, EmptyState, Icon, Osi, P, Pill, RoundButton, SectionTitle, SlideSwitcher, colorOf, sphereColor } from "@/ui";
@@ -613,6 +614,7 @@ export default function TodayScreen() {
 
   const rest: ReactNode = (
     <>
+      <GiftNudges />
       <CriticalBlock crit={crit} wide={wide} s={s} />
       <div className="today-stats">
         <MoneyCard s={s} />

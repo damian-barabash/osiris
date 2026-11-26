@@ -50,7 +50,7 @@ async function reveal(page) {
     window.scrollTo({ top: 0, behavior: "instant" });
   });
   await sleep(900);
-  const hidden = await page.evaluate(() => document.querySelectorAll(".rv:not(.in)").length);
+  const hidden = await page.evaluate(() => document.querySelectorAll(".rv:not([data-in])").length);
   if (hidden) note("reveal", `не появилось блоков: ${hidden}`);
 }
 
@@ -76,8 +76,19 @@ for (const lang of ["en", "pl", "ru"]) {
 console.log("Меню на телефоне, язык, баннер cookies, чат");
 {
   const page = await open("mobile-menu", "/ru/", "phone", { lang: "ru" });
-  await page.click(".hd-burger"); await sleep(700);
+  const cta = await page.evaluate(() => { const e = document.querySelector(".hd-sheet"); const c = getComputedStyle(e); return c.visibility; });
+  if (cta !== "hidden") note("mobile-menu", "закрытое меню видно на странице");
+  await page.click(".hd-burger"); await sleep(1100);
+  const menu = await page.evaluate(() => { const r = document.querySelector(".hd-sheet").getBoundingClientRect(); return [Math.round(r.height), innerHeight, [...document.querySelectorAll(".hd-sheet nav a")].every((a) => getComputedStyle(a).opacity === "1")]; });
+  if (menu[0] < menu[1] - 2 || !menu[2]) note("mobile-menu", `меню не на весь экран или пункты не видны: ${menu}`);
   await shot(page, "mobile-menu");
+  await page.click(".hd-burger"); await sleep(800);
+  // FAQ: открытый вопрос остаётся на месте вместе с ответом
+  await page.evaluate(() => document.querySelector("#faq").scrollIntoView({ behavior: "instant" })); await sleep(900);
+  await page.evaluate(() => document.querySelectorAll(".fq-item button")[2].click()); await sleep(800);
+  const fq = await page.evaluate(() => { const it = document.querySelectorAll(".fq-item")[2]; return [getComputedStyle(it).opacity, Math.round(it.querySelector(".fq-body").getBoundingClientRect().height), it.classList.contains("open")]; });
+  if (fq[0] !== "1" || fq[1] < 30 || !fq[2]) note("faq", `открытый вопрос пропал или ответ не раскрылся: ${fq}`);
+  await shot(page, "faq-open-phone");
   await page.close();
   const p2 = await open("cookie", "/ru/", "desk", { consent: false, lang: "ru" });
   await sleep(3200);
@@ -135,6 +146,7 @@ if (SVC) {
       { ...u, title: "Созвон с типографией", starts_at: at(0, 15, 30), ends_at: at(0, 16, 15), sphere: "work" },
       { ...u, title: "День рождения мамы", starts_at: at(3, 0), all_day: true, sphere: "personal", priority: "important" },
       { ...u, title: "Стоматолог", starts_at: at(1, 12), ends_at: at(1, 13), sphere: "personal" },
+      { ...u, title: "День рождения Маши", starts_at: at(40, 0), all_day: true, sphere: "personal" },
     ]) await rest("/rest/v1/events", "POST", ev);
     for (const t of [
       { ...u, title: "Отправить финальные файлы", project_id: project.id, due_at: at(0, 18), all_day: false, priority: "important", sphere: "work" },
@@ -164,6 +176,42 @@ if (SVC) {
       await sleep(2500);
       // закрыть листы, которые открываются при входе (опрос настроения, «ты это сделал?»)
       for (let i = 0; i < 3 && (await page.$(".sheet-layer")); i++) { await page.keyboard.press("Escape"); await sleep(600); }
+      const vis = async (sel) => page.evaluate((q) => { const e = document.querySelector(q); if (!e) return false; const r = e.getBoundingClientRect(), c = getComputedStyle(e); return r.width > 50 && r.height > 50 && c.display !== "none" && c.visibility !== "hidden"; }, sel);
+      const tap = async (sel, text) => { const r = await page.evaluate((q, t) => { const e = [...document.querySelectorAll(q)].find((x) => !t || (x.textContent ?? "").includes(t)); if (!e) return null; const b = e.getBoundingClientRect(); return [b.x + b.width / 2, b.y + b.height / 2]; }, sel, text); if (!r) { note(name, `нет элемента ${sel} ${text ?? ""}`); return; } if (view === "phone") await page.touchscreen.tap(r[0], r[1]); else await page.mouse.click(r[0], r[1]); };
+      if (view === "desk") {
+        // копилка на подарок: предложение, сумма, цель привязана к событию
+        await page.evaluate(() => { localStorage.setItem("mood_skipped_at", new Date().toISOString()); }); await page.reload({ waitUntil: "networkidle0" }); await sleep(3600);
+        if (!(await vis(".gift-sheet"))) note("gift", "предложение копилки не появилось");
+        else {
+          await shot(page, "app-gift-offer-desk");
+          await tap(".gift-sheet .btn", "Да, копить"); await sleep(700);
+          await page.type(".gift-sheet input", "600"); await sleep(400);
+          await shot(page, "app-gift-sum-desk");
+          await tap(".gift-sheet .btn", "Создать копилку"); await sleep(1800);
+          const ok = await page.evaluate(() => location.hash.startsWith("#/goal/") && document.body.innerText.includes("Подарок: Маши") && document.body.innerText.includes("Копилка к событию"));
+          if (!ok) note("gift", "копилка не создалась или не привязалась к событию");
+          await shot(page, "app-gift-goal-desk", true);
+        }
+      } else {
+        // телефон: добавить задачу и событие с главной, клиента, заметку — окна должны быть видны, записи появляться
+        await page.evaluate(() => { location.hash = "/"; }); await sleep(1200);
+        for (const [item, title, input] of [["Задача", "Купить молоко", true], ["Событие", "Концерт в четверг", true]]) {
+          await tap(".today-add .round"); await sleep(700); await tap(".today-add-item", item); await sleep(1200);
+          if (!(await vis(".sheet"))) { note(name, `телефон: окно «${item}» не видно`); continue; }
+          await shot(page, item === "Задача" ? "app-add-task-phone" : "app-add-event-phone");
+          const right = await page.evaluate(() => Math.round(document.querySelector(".sheet-header .btn")?.getBoundingClientRect().right ?? 0));
+          if (right > 392) note(name, `телефон: кнопка сохранения «${item}» за краем экрана (${right})`);
+          await page.type(".sheet input", title); await sleep(200); await tap(".sheet-header .btn"); await sleep(1500);
+          if (await page.$(".sheet-layer")) { note(name, `телефон: «${item}» не сохранилось`); await page.keyboard.press("Escape"); await sleep(500); }
+          else if (!(await page.evaluate((t) => document.body.innerText.includes(t), title))) note(name, `телефон: «${title}» не появилось на экране`);
+        }
+        await page.evaluate(() => { location.hash = "/calendar"; }); await sleep(1500);
+        const plus = await page.evaluate(() => { const b = document.querySelector('.page .screen-actions button, .page header button[aria-label^="Добавить"]') ?? [...document.querySelectorAll(".page button")].find((x) => /^Добавить/.test(x.getAttribute("aria-label") ?? "")); return b ? Math.round(b.getBoundingClientRect().top) : null; });
+        if (plus === null || plus < 0) note(name, `телефон: «+» календаря за экраном (${plus})`);
+        await page.evaluate(() => { location.hash = "/notes"; }); await sleep(1300);
+        await tap('.page button[aria-label="Новая заметка"]'); await sleep(1100);
+        if (!(await vis(".sheet"))) note(name, "телефон: окно заметки не видно"); else { await shot(page, "app-add-note-phone"); await page.keyboard.press("Escape"); await sleep(500); }
+      }
       for (const [key, hash] of [["today", "/"], ["calendar", "/calendar"], ["projects", "/projects"], ["project", `/project/${project.id}`], ["client", `/client/${client.id}`], ["hours", "/hours"], ["goals", "/goals"], ["goal", `/goal/${tr.id}`], ["chat", "/chat"], ["friends", "/friends"], ["notes", "/notes"], ["mood", "/mood"], ["settings", "/settings"], ["settings-plan", "/settings?tab=plan"]]) {
         await page.evaluate((h) => { location.hash = h; }, hash);
         await sleep(1500);

@@ -163,3 +163,14 @@
 @media (prefers-reduced-motion: reduce) {
   .goals-card-steps span, .goals-card-day span.on, .goal-cell, .goal-cell.on span, .goals-ed-stage { animation: none; }
 }
+
+/* копилка на подарок */
+.gift-top { display: grid; justify-items: center; gap: 6px; padding: 6px 0 14px; text-align: center; }
+.gift-top p { max-width: 380px; font-weight: 700; font-size: 16px; line-height: 1.4; }
+.gift-hint { display: flex; align-items: center; gap: 7px; margin: 2px 4px 14px; font-weight: 700; font-size: 14px; color: var(--ink-soft); }
+.gift-link { display: flex; align-items: flex-start; gap: 12px; margin-top: 14px; }
+.gift-link div, .gift-nudge div { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.gift-link b, .gift-nudge b { font-weight: 800; }
+.gift-link span, .gift-nudge span { font-size: 13.5px; font-weight: 600; opacity: 0.82; }
+.gift-nudges { display: grid; gap: 10px; margin-bottom: 14px; }
+.gift-nudge { display: flex; align-items: center; gap: 12px; }

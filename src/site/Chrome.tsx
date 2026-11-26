@@ -154,10 +154,10 @@ function FtCol({ title, children }: { title: string; children: ReactNode }) {
 /** Появление блоков при прокрутке: элементам с классом .rv добавляется .in, когда они входят в экран. */
 export function useReveal() {
   useEffect(() => {
-    const els = [...document.querySelectorAll<HTMLElement>(".rv:not(.in)")];
-    if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
+    const els = [...document.querySelectorAll<HTMLElement>(".rv:not([data-in])")];
+    if (!("IntersectionObserver" in window)) { els.forEach((e) => { e.dataset.in = "1"; }); return; }
     const io = new IntersectionObserver((list) => {
-      for (const e of list) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      for (const e of list) if (e.isIntersecting) { (e.target as HTMLElement).dataset.in = "1"; io.unobserve(e.target); }
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
     els.forEach((e) => io.observe(e));
     return () => io.disconnect();

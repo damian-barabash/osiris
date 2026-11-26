@@ -68,7 +68,12 @@ export default function CalendarScreen() {
 
   const scrollToDay = (d: Date, smooth = true) => {
     if (desktop) return;
-    document.getElementById("cal-day-" + dateOnly(d))?.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+    const el = document.getElementById("cal-day-" + dateOnly(d));
+    if (!el) return;
+    // при открытии экрана не прячем шапку с видами и «+»: прокручиваем, только если день не виден
+    const r = el.getBoundingClientRect();
+    if (!smooth && r.top >= 0 && r.top < window.innerHeight * 0.75) return;
+    el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: smooth ? "start" : "center" });
   };
 
   const shiftWeek = (d: number) => {
