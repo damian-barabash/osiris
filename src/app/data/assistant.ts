@@ -72,11 +72,18 @@ async function request(mode: "chat" | "capture" | "brief", text: string, h: Stre
     const { data } = await sb.auth.getSession();
     const token = data.session?.access_token;
     if (!token) throw new AssistantError("no auth", 401);
-    res = await fetch(FN + "/assistant", {
+    const call = (tk: string) => fetch(FN + "/assistant", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: stream ? "text/event-stream" : "application/json", Authorization: "Bearer " + token, apikey: SUPABASE_KEY },
+      headers: { "Content-Type": "application/json", Accept: stream ? "text/event-stream" : "application/json", Authorization: "Bearer " + tk, apikey: SUPABASE_KEY },
       body: JSON.stringify({ mode, text, tz: tz(), lang: L.code, ...(stream ? { stream: true } : { now: localNow() }) }),
     });
+    res = await call(token);
+    if (res.status === 401) {
+      // сессию завершили с другого устройства: обновить и повторить, иначе — на экран входа
+      const { data: fresh, error } = await sb.auth.refreshSession();
+      if (error || !fresh.session) { await sb.auth.signOut({ scope: "local" }); throw new AssistantError(tr("Сессия закончилась — войди в аккаунт заново"), 401); }
+      res = await call(fresh.session.access_token);
+    }
   } catch (e) {
     if (e instanceof AssistantError) throw e;
     throw new AssistantError(String((e as Error)?.message ?? e), undefined, true);

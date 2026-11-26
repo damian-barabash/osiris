@@ -328,7 +328,8 @@ function AccountTab() {
 
   const signOut = async () => {
     if (!(await confirm(tr("Выйти из аккаунта?"), { action: tr("Выйти") }))) return;
-    const { error } = await sb.auth.signOut();
+    // только это устройство: без scope выход завершал сессии везде, и в приложении на телефоне Оси отвечал «bad auth»
+    const { error } = await sb.auth.signOut({ scope: "local" });
     if (error) toast(errText(error), "error");
   };
 
