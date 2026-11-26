@@ -129,7 +129,7 @@
   animation: sheet-up 0.42s var(--ease-out) both; transition: transform 0.3s var(--ease-out); }
 .sheet-grip { display: grid; place-items: center; height: 22px; flex: none; cursor: grab; touch-action: none; }
 .sheet-grip span { width: 44px; height: 5px; border-radius: 3px; background: var(--line); }
-.sheet-body { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; min-width: 0; padding: 0 20px calc(22px + env(safe-area-inset-bottom)); }
+.sheet-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; min-width: 0; padding: 0 20px calc(22px + env(safe-area-inset-bottom)); }
 .sheet-layer.closing .sheet { animation: sheet-down 0.26s var(--ease-io) both; }
 .sheet-layer.closing .sheet-backdrop { animation: fade-out 0.26s var(--ease-io) both; }
 .sheet-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 6px 0 12px; background: var(--paper); }
@@ -156,8 +156,9 @@ html.sheet-open { overflow: hidden; }
   .sheet-grip { display: none; }
   .sheet-body { padding: 22px 28px 26px; }
   .sheet-layer.closing .sheet { animation: sheet-unpop 0.22s var(--ease-io) both; }
-  .sheet-layer.as-panel { justify-items: end; align-items: stretch; padding: 12px; }
-  .sheet-layer.as-panel .sheet { max-height: none; height: 100%; max-width: 520px; animation: sheet-side 0.4s var(--ease-out) both; }
+  /* строка сетки ограничена высотой окна — иначе высокая панель вылезает за экран и не прокручивается */
+  .sheet-layer.as-panel { justify-items: end; align-items: stretch; grid-template-rows: minmax(0, 1fr); padding: 12px; }
+  .sheet-layer.as-panel .sheet { max-height: none; height: 100%; min-height: 0; max-width: 520px; animation: sheet-side 0.4s var(--ease-out) both; }
   .sheet-layer.as-panel.closing .sheet { animation: sheet-unside 0.26s var(--ease-io) both; }
 }
 @keyframes sheet-up { from { transform: translateY(104%); } }

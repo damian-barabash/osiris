@@ -47,6 +47,17 @@ try {
     const [prof] = await rest(`/rest/v1/profiles?id=eq.${a.id}&select=ai_consent_at,tutorial_seen_at`);
     if (!prof.ai_consent_at || !prof.tutorial_seen_at) note(view, `флаги в профиле не записались: ${JSON.stringify(prof)}`);
     for (let i = 0; i < 3 && (await p.$(".sheet-layer")); i++) { await p.keyboard.press("Escape"); await sleep(600); }
+    if (view === "desk") { // боковая панель задачи на невысоком окне: должна помещаться в экран и прокручиваться
+      await p.setViewport({ width: 1440, height: 620, deviceScaleFactor: 1 });
+      await p.evaluate(() => { location.hash = "/"; }); await sleep(1200);
+      await p.evaluate(() => document.querySelector(".today-add .round")?.click()); await sleep(700);
+      await clickText(p, ".today-add-item", "Задача"); await sleep(1300);
+      const m = await p.evaluate(() => { const sh = document.querySelector(".sheet"), b = document.querySelector(".sheet-body"); if (!sh || !b) return null; return [Math.round(sh.getBoundingClientRect().bottom), innerHeight, b.scrollHeight, b.clientHeight]; });
+      if (!m) note(view, "лист задачи не открылся"); else if (m[0] > m[1] || m[2] <= m[3]) note(view, `панель задачи не прокручивается: низ ${m[0]} при окне ${m[1]}, содержимое ${m[2]} / видно ${m[3]}`);
+      else { await p.evaluate(() => { const b = document.querySelector(".sheet-body"); b.scrollTop = b.scrollHeight; }); await sleep(400); await p.screenshot({ path: `${OUT}/acc-task-panel-scrolled.png` }); }
+      await p.keyboard.press("Escape"); await sleep(700);
+      await p.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
+    }
     await p.evaluate(() => { location.hash = "/settings"; }); await sleep(1500);
     await clickText(p, "button, a", "Аккаунт"); await sleep(1000);
     await p.screenshot({ path: `${OUT}/acc-settings-${view}.png`, fullPage: true });
